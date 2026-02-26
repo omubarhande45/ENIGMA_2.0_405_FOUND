@@ -1,0 +1,267 @@
+/* ===== LUNG CAPACITY TABS ===== */
+.lung-capacity-tabs{
+  display:flex;gap:4px;margin-bottom:16px;padding:4px;
+  background:var(--surface2);border-radius:12px;
+}
+
+.lung-tab{
+  flex:1;padding:10px 16px;border:none;background:none;border-radius:8px;
+  color:var(--text2);font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;
+  cursor:pointer;transition:all 0.2s;
+}
+
+.lung-tab:hover{color:var(--text);background:rgba(59,130,246,0.1);}
+.lung-tab.active{background:var(--gradient);color:white;}
+
+.lung-tab-content{display:none;padding:16px 0;}
+.lung-tab-content.active{display:block;}
+
+/* ===== HISTORY TAB ===== */
+.lung-history-chart{
+  background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;
+}
+
+.history-svg{width:100%;height:150px;}
+
+.history-line{stroke-linecap:round;stroke-linejoin:round;}
+
+.history-legend{
+  display:flex;gap:20px;justify-content:center;margin-top:12px;
+}
+
+.history-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;
+}
+
+.history-stat-item{
+  background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;
+  text-align:center;
+}
+
+.history-stat-label{font-size:10px;color:var(--text3);letter-spacing:0.5px;}
+.history-stat-value{font-family:'Outfit',sans-serif;font-size:24px;font-weight:700;color:var(--c1);margin-top:4px;}
+.history-stat-value.positive{color:var(--c3);}
+.history-stat-date{font-size:9px;color:var(--text2);margin-top:2px;}
+
+/* ===== COMPARISON TAB ===== */
+.comparison-container{display:flex;gap:20px;}
+
+.comparison-chart{flex:1;}
+
+.comparison-bar-group{margin-bottom:16px;}
+
+.comparison-label{font-size:11px;color:var(--text3);margin-bottom:8px;}
+
+.comparison-bars{
+  display:flex;gap:12px;align-items:flex-end;height:100px;
+}
+
+.comparison-bar{
+  flex:1;background:var(--gradient);border-radius:6px 6px 0 0;
+  display:flex;align-items:flex-start;justify-content:center;padding-top:8px;
+  font-size:10px;font-weight:700;color:white;min-height:20px;
+  transition:height 0.3s ease;
+}
+
+.comparison-bar.you{background:linear-gradient(to top,var(--c1),var(--c2));}
+.comparison-bar.norm{background:linear-gradient(to top,var(--c3),#059669);}
+.comparison-bar.pop{background:linear-gradient(to top,var(--c6),#7c3aed);}
+
+.comparison-xlabels{
+  display:flex;gap:12px;margin-top:6px;font-size:9px;
+}
+
+.comparison-summary{
+  width:200px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:12px;padding:20px;text-align:center;
+}
+
+.comparison-percentile{padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:16px;}
+
+.percentile-value{
+  font-family:'Outfit',sans-serif;font-size:48px;font-weight:900;color:var(--c1);
+}
+
+.percentile-value sup{font-size:20px;}
+
+.percentile-label{font-size:11px;color:var(--text3);letter-spacing:1px;}
+.percentile-desc{font-size:10px;color:var(--text2);margin-top:8px;line-height:1.5;}
+
+.comparison-grade{
+  padding:16px;background:var(--gradient);border-radius:10px;
+}
+
+.grade-a{font-family:'Outfit',sans-serif;font-size:42px;font-weight:900;color:white;}
+.grade-label{font-size:10px;color:rgba(255,255,255,0.8);margin-top:4px;}
+
+/* ===== ACHIEVEMENTS TAB ===== */
+.achievements-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+}
+
+.achievement-card{
+  background:var(--surface2);border:1px solid var(--border);border-radius:12px;
+  padding:16px;text-align:center;transition:all 0.2s;
+}
+
+.achievement-card:hover{border-color:var(--c1);transform:translateY(-2px);}
+.achievement-card.unlocked{background:rgba(16,185,129,0.08);border-color:rgba(16,185,129,0.3);}
+
+.achievement-icon{font-size:32px;margin-bottom:8px;}
+.achievement-title{font-size:13px;font-weight:700;margin-bottom:4px;}
+.achievement-desc{font-size:10px;color:var(--text2);margin-bottom:8px;}
+.achievement-date{font-size:9px;color:var(--c3);}
+
+.achievement-progress{height:6px;background:var(--border);border-radius:3px;margin-top:8px;overflow:hidden;}
+.achievement-progress-bar{
+  height:100%;background:var(--gradient);border-radius:3px;
+  font-size:8px;color:white;line-height:6px;text-align:center;
+}
+
+/* Gamification Score */
+.gamification-score{
+  margin-top:20px;padding:20px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:12px;text-align:center;
+}
+
+.score-label{font-size:11px;color:var(--text3);letter-spacing:1px;}
+.score-value{font-family:'Outfit',sans-serif;font-size:42px;font-weight:900;color:var(--c1);margin:8px 0;}
+.score-rank{font-size:14px;color:var(--c4);font-weight:600;}
+.score-progress{
+  margin-top:12px;display:flex;align-items:center;gap:12px;
+}
+.score-progress-bar{
+  flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden;
+}
+.score-progress-bar::after{
+  content:'';display:block;height:100%;width:65%;background:var(--gradient);border-radius:4px;
+}
+.score-progress span{font-size:10px;color:var(--text2);}
+
+/* ===== BREATHING EXERCISES MODAL ===== */
+.breathing-exercises-modal{
+  position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);
+  z-index:600;display:flex;align-items:center;justify-content:center;
+}
+
+.breathing-exercises-modal.hidden{display:none;}
+
+.breathing-exercises-container{
+  background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:32px;
+  width:520px;max-width:90vw;position:relative;
+}
+
+.breathing-header{text-align:center;margin-bottom:20px;}
+.breathing-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;margin-bottom:6px;}
+.breathing-sub{font-size:13px;color:var(--text2);}
+
+.breathing-exercise-tabs{
+  display:flex;gap:8px;margin-bottom:20px;
+}
+
+.breathing-exercise-tab{
+  flex:1;padding:10px;border:none;background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;color:var(--text2);font-size:12px;font-weight:500;cursor:pointer;transition:all 0.2s;
+}
+
+.breathing-exercise-tab:hover{border-color:var(--c1);}
+.breathing-exercise-tab.active{background:var(--gradient);color:white;border-color:transparent;}
+
+.breathing-visualizer{
+  text-align:center;padding:30px 0;
+}
+
+.breathing-circle{
+  width:150px;height:150px;margin:0 auto 20px;
+  background:linear-gradient(135deg,var(--c1),var(--c2));border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 0.3s ease;box-shadow:0 0 40px rgba(59,130,246,0.4);
+}
+
+.breathing-instruction{font-size:16px;font-weight:700;color:white;}
+
+.breathing-timer{font-family:'Space Mono',monospace;font-size:32px;color:var(--c1);margin-bottom:8px;}
+.breathing-cycle{font-size:12px;color:var(--text2);}
+
+.breathing-description{
+  padding:12px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text2);
+  text-align:center;margin-bottom:20px;line-height:1.6;
+}
+
+.breathing-controls{display:flex;gap:12px;justify-content:center;margin-bottom:16px;}
+
+.breathing-btn{
+  padding:12px 24px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;
+}
+
+.breathing-btn.start{background:var(--gradient);color:white;}
+.breathing-btn.pause{background:var(--surface2);border:1px solid var(--border);color:var(--text2);}
+.breathing-btn.stop{background:rgba(239,68,68,0.2);color:#ef4444;border:1px solid rgba(239,68,68,0.3);}
+.breathing-btn:hover{transform:translateY(-2px);}
+.breathing-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+
+.breathing-voice-toggle{
+  display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:20px;font-size:12px;color:var(--text2);
+}
+
+.breathing-stats{display:flex;gap:20px;justify-content:center;}
+
+.breathing-stat{text-align:center;}
+.breathing-stat-value{font-family:'Outfit',sans-serif;font-size:28px;font-weight:700;color:var(--c1);}
+.breathing-stat-label{font-size:10px;color:var(--text3);}
+
+/* ===== AI RECOMMENDATION MODAL ===== */
+.ai-recommendation-modal{
+  position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);
+  z-index:600;display:flex;align-items:center;justify-content:center;
+}
+
+.ai-recommendation-modal.hidden{display:none;}
+
+.ai-recommendation-content{
+  background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:28px;
+  width:480px;max-width:90vw;position:relative;
+}
+
+.ai-recommendation-close{
+  position:absolute;top:14px;right:14px;width:32px;height:32px;
+  background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;
+  transition:all 0.2s;
+}
+.ai-recommendation-close:hover{border-color:var(--c5);color:var(--c5);}
+
+.ai-recommendation-header{
+  display:flex;align-items:center;gap:12px;margin-bottom:20px;
+}
+
+.ai-recommendation-icon{font-size:28px;}
+.ai-recommendation-title{font-size:18px;font-weight:700;}
+
+.ai-recommendation-score{
+  text-align:center;padding:24px;background:var(--surface2);border-radius:12px;margin-bottom:20px;
+}
+
+.ai-score-label{font-size:11px;color:var(--text3);letter-spacing:1px;}
+.ai-score-value{font-family:'Outfit',sans-serif;font-size:52px;font-weight:900;margin:8px 0;}
+.ai-score-value.good{color:var(--c3);}
+.ai-score-value.warning{color:var(--c4);}
+.ai-score-value.danger{color:var(--c5);}
+.ai-score-status{font-size:14px;color:var(--c3);font-weight:600;}
+
+.ai-recommendation-metrics{margin-bottom:20px;}
+
+.ai-metric{
+  display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);
+  font-size:12px;
+}
+
+.ai-metric span:first-child{color:var(--text2);}
+.ai-metric span:last-child{font-family:'Space Mono',monospace;color:var(--c1);font-weight:600;}
+
+.ai-tip-title{font-size:12px;font-weight:700;margin-bottom:12px;}
+
+.ai-tip{
+  padding:12px;background:var(--surface2);border-radius:8px;margin-bottom:8px;
+  font-size:11px;color:var(--text2);line-height:1.5;
+}
