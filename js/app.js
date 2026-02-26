@@ -3,8 +3,6 @@ const API_BASE = 'http://localhost:3000/api';
 
 // ===== NAVIGATION =====
 function navigate(page, el){
-// ===== NAVIGATION =====
-function navigate(page, el){
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('panel-'+page).classList.add('active');

@@ -7,7 +7,7 @@ function navigate(page, el){
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('panel-'+page).classList.add('active');
   el.classList.add('active');
-  const titles = {dashboard:'Dashboard',map:'AQI Map',timeline:'Exposure Timeline',public:'Public Health',ai:'AI Assistant',settings:'Settings'};
+  const titles = {dashboard:'Dashboard',map:'AQI Map',timeline:'Exposure Timeline',public:'Public Health',ai:'AI Assistant',lung:'Lung Capacity',settings:'Settings'};
   document.getElementById('page-title-display').textContent = titles[page] || page;
   document.getElementById('breadcrumb-current').textContent = titles[page] || page;
 }
