@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PulmoSense v2 — Advanced Lung Health Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/lung-capacity.css">
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg-layer">
+  <div class="bg-orb"></div>
+  <div class="bg-orb"></div>
+  <div class="bg-orb"></div>
+</div>
+<div class="grid-bg"></div>
+
+<!-- ===== ONBOARDING MODAL ===== -->
+<div class="modal-overlay" id="onboarding">
+  <div class="modal">
+    <div class="modal-step active" id="step-1">
+      <div style="font-size:40px;margin-bottom:12px;">🫁</div>
+      <div class="modal-title">Welcome to PulmoSense</div>
+      <div class="modal-sub">Your AI-powered lung health companion that combines real-time air quality data with your biometrics to protect your respiratory health.</div>
+      <div class="modal-feature">
+        <div class="modal-feat-icon">📡</div>
+        <div><div class="modal-feat-title">Real-Time Monitoring</div><div class="modal-feat-text">Live AQI data from 50+ sensors across your city, updated every 60 seconds</div></div>
+      </div>
+      <div class="modal-feature">
+        <div class="modal-feat-icon">⌚</div>
+        <div><div class="modal-feat-title">Wearable Integration</div><div class="modal-feat-text">Syncs with your smartwatch for SpO₂, heart rate & respiratory rate tracking</div></div>
+      </div>
+      <div class="modal-feature">
+        <div class="modal-feat-icon">🤖</div>
+        <div><div class="modal-feat-title">AI Risk Prediction</div><div class="modal-feat-text">ML model trained on 10,000+ patient records predicts your personal risk</div></div>
+      </div>
+    </div>
+
+    <div class="modal-step" id="step-2">
+      <div style="font-size:40px;margin-bottom:12px;">👤</div>
+      <div class="modal-title">Your Health Profile</div>
+      <div class="modal-sub">Personalize your experience so our AI can give you accurate, relevant insights.</div>
+      <div class="input-grid">
+        <div class="form-group"><label class="form-label">AGE</label><input class="form-input" placeholder="e.g. 28" value="28"/></div>
+        <div class="form-group"><label class="form-label">GENDER</label><select class="form-input"><option>Male</option><option>Female</option></select></div>
+        <div class="form-group"><label class="form-label">HEIGHT (cm)</label><input class="form-input" placeholder="e.g. 175" value="175"/></div>
+        <div class="form-group"><label class="form-label">CITY</label><input class="form-input" placeholder="Nagpur, Maharashtra" value="Nagpur, Maharashtra"/></div>
+      </div>
+      <div class="form-group" style="margin-top:16px;"><label class="form-label">MEDICAL CONDITIONS</label>
+        <div class="checkbox-grid">
+          <label class="checkbox-item"><input type="checkbox"/> Asthma</label>
+          <label class="checkbox-item"><input type="checkbox" checked/> Allergic Rhinitis</label>
+          <label class="checkbox-item"><input type="checkbox"/> COPD</label>
+          <label class="checkbox-item"><input type="checkbox"/> None</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-step" id="step-3">
+      <div style="font-size:40px;margin-bottom:12px;">🔔</div>
+      <div class="modal-title">Stay Informed</div>
+      <div class="modal-sub">Configure alerts to keep yourself protected throughout the day.</div>
+      <div class="toggle-list">
+        <div class="toggle-item"><span>🔴 High AQI Alerts</span><div class="toggle on"></div></div>
+        <div class="toggle-item"><span🩸 SpO₂ Dip Alerts</span><div class="toggle on"></div></div>
+        <div class="toggle-item"><span📊 Daily Health Report</span><div class="toggle on"></div></div>
+        <div class="toggle-item"><span🏃 Outdoor Windows</span><div class="toggle"></div></div>
+        <div class="toggle-item"><span👨‍⚕️ Doctor Reminders</span><div class="toggle on"></div></div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <div class="progress-dots">
+        <div class="progress-dot active" id="pd1"></div>
+        <div class="progress-dot" id="pd2"></div>
+        <div class="progress-dot" id="pd3"></div>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn secondary" id="modal-prev-btn" onclick="prevStep()">← Back</button>
+        <button class="modal-btn primary" id="modal-next-btn" onclick="nextStep()">Get Started →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div class="app-container">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">🫁</div>
+      <div class="logo-text">PulmoSense</div>
+    </div>
+    
+    <div class="nav-items">
+      <div class="nav-item active" onclick="navigate('dashboard', this)">
+        <span class="nav-icon">📊</span>
+        <span class="nav-text">Dashboard</span>
+      </div>
+      <div class="nav-item" onclick="navigate('map', this)">
+        <span class="nav-icon">🗺️</span>
+        <span class="nav-text">AQI Map</span>
+      </div>
+      <div class="nav-item" onclick="navigate('timeline', this)">
+        <span class="nav-icon">📈</span>
+        <span class="nav-text">Timeline</span>
+      </div>
+      <div class="nav-item" onclick="navigate('public', this)">
+        <span class="nav-icon">🏥</span>
+        <span class="nav-text">Public Health</span>
+      </div>
+      <div class="nav-item" onclick="navigate('ai', this)">
+        <span class="nav-icon">🤖</span>
+        <span class="nav-text">AI Assistant</span>
+      </div>
+      <div class="nav-item" onclick="navigate('settings', this)">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-text">Settings</span>
+      </div>
+    </div>
+    
+    <div class="sidebar-footer">
+      <div class="user-profile">
+        <div class="user-avatar">👤</div>
+        <div class="user-info">
+          <div class="user-name">Rahul Sharma</div>
+          <div class="user-city">Nagpur, Maharashtra</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="top-bar">
+      <div class="breadcrumb">
+        <span id="breadcrumb-current">Dashboard</span>
+      </div>
+      <div class="header-actions">
+        <button class="header-btn" onclick="toggleNotif()">🔔<span class="notif-badge">3</span></button>
+        <button class="header-btn">👤</button>
+      </div>
+    </header>
+
+    <!-- Dashboard Panel -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="page-header">
+        <h1 class="page-title" id="page-title-display">Dashboard</h1>
+        <p class="page-subtitle">Your lung health at a glance</p>
+      </div>
+      
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Current AQI</div>
+          <div class="kpi-value" id="kpi-aqi">--</div>
+          <div class="kpi-sub">Nagpur, Maharashtra</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">SpO₂</div>
+          <div class="kpi-value" id="spo2-live">--%</div>
+          <div class="kpi-sub">Live from wearable</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Heart Rate</div>
+          <div class="kpi-value" id="hr-live">--</div>
+          <div class="kpi-sub">BPM</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Resp. Rate</div>
+          <div class="kpi-value" id="rr-live">--/m</div>
+          <div class="kpi-sub">per minute</div>
+        </div>
+      </div>
+      
+      <!-- Main Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- AQI Display -->
+        <div class="dashboard-card aqi-card">
+          <div class="card-header">
+            <h3>Air Quality Index</h3>
+            <span class="live-badge">LIVE</span>
+          </div>
+          <div class="aqi-display">
+            <div class="aqi-circle" id="aqi-display">--</div>
+            <div class="aqi-status" id="aqi-status">Loading...</div>
+          </div>
+          <div class="aqi-details">
+            <div class="aqi-detail"><span>PM2.5</span><span id="pm25-display">--</span></div>
+            <div class="aqi-detail"><span>PM10</span><span id="pm10-display">--</span></div>
+          </div>
+        </div>
+        
+        <!-- Lung Health Index -->
+        <div class="dashboard-card lhi-card">
+          <div class="card-header">
+            <h3>Lung Health Index</h3>
+            <button class="card-action" onclick="openLungTest()">+ Test</button>
+          </div>
+          <div class="lhi-display">
+            <div class="lhi-value" id="lhi-animated">0</div>
+            <div class="lhi-label">/ 100</div>
+          </div>
+          <div class="lhi-metrics">
+            <div class="lhi-metric">
+              <div class="lhi-metric-label">FEV1</div>
+              <div class="lhi-metric-value" id="metric-fev1">--</div>
+            </div>
+            <div class="lhi-metric">
+              <div class="lhi-metric-label">FVC</div>
+              <div class="lhi-metric-value" id="metric-fvc">--</div>
+            </div>
+            <div class="lhi-metric">
+              <div class="lhi-metric-label">Ratio</div>
+              <div class="lhi-metric-value" id="metric-ratio">--</div>
+            </div>
+            <div class="lhi-metric">
+              <div class="lhi-metric-label">PEF</div>
+              <div class="lhi-metric-value" id="metric-pef">--</div>
+            </div>
+          </div>
+          <div class="lung-status" id="lung-status">Normal</div>
+        </div>
+        
+        <!-- AI Risk -->
+        <div class="dashboard-card risk-card">
+          <div class="card-header">
+            <h3>AI Risk Breakdown</h3>
+          </div>
+          <div class="risk-items">
+            <div class="risk-item">
+              <div class="risk-label">Asthma Trigger Risk</div>
+              <div class="risk-bar"><div class="risk-fill" id="risk1" data-w="34" style="width:0%"></div></div>
+              <div class="risk-value">34%</div>
+            </div>
+            <div class="risk-item">
+              <div class="risk-label">COPD Progression</div>
+              <div class="risk-bar"><div class="risk-fill" id="risk2" data-w="12" style="width:0%"></div></div>
+              <div class="risk-value">12%</div>
+            </div>
+            <div class="risk-item">
+              <div class="risk-label">5-Year Lung Damage</div>
+              <div class="risk-bar"><div class="risk-fill" id="risk3" data-w="22" style="width:0%"></div></div>
+              <div class="risk-value">22%</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Pollutants -->
+        <div class="dashboard-card pollutants-card">
+          <div class="card-header">
+            <h3>Pollutant Levels</h3>
+          </div>
+          <div class="pollutants">
+            <div class="pollutant"><div class="poll-label">PM2.5</div><div class="poll-bar"><div class="poll-fill" data-w="68" style="width:0%"></div></div><div class="poll-value">68%</div></div>
+            <div class="pollutant"><div class="poll-label">PM10</div><div class="poll-bar"><div class="poll-fill" data-w="82" style="width:0%"></div></div><div class="poll-value">82%</div></div>
+            <div class="pollutant"><div class="poll-label">CO</div><div class="poll-bar"><div class="poll-fill" data-w="23" style="width:0%"></div></div><div class="poll-value">23%</div></div>
+            <div class="pollutant"><div class="poll-label">NO₂</div><div class="poll-bar"><div class="poll-fill" data-w="45" style="width:0%"></div></div><div class="poll-value">45%</div></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 24h Chart -->
+      <div class="chart-card">
+        <div class="card-header">
+          <h3>24-Hour AQI vs SpO₂ Correlation</h3>
+          <div class="chart-tabs">
+            <button class="chart-tab active" onclick="setChartMode('day', this)">Day</button>
+            <button class="chart-tab" onclick="setChartMode('week', this)">Week</button>
+            <button class="chart-tab" onclick="setChartMode('month', this)">Month</button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <svg viewBox="0 0 800 140" class="main-svg" id="main-chart">
+            <defs>
+              <linearGradient id="aqiGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:0.3"/>
+                <stop offset="100%" style="stop-color:#ff6b6b;stop-opacity:0"/>
+              </linearGradient>
+              <linearGradient id="spo2Gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#4ecdc4;stop-opacity:0.3"/>
+                <stop offset="100%" style="stop-color:#4ecdc4;stop-opacity:0"/>
+              </linearGradient>
+            </defs>
+            <path id="aqi-area" fill="url(#aqiGradient)"/>
+            <path id="aqi-line" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+            <path id="spo2-area" fill="url(#spo2Gradient)"/>
+            <path id="spo2-line" fill="none" stroke="#4ecdc4" stroke-width="2"/>
+            <circle id="current-dot" r="5" fill="#fff" stroke="#ff6b6b" stroke-width="2"/>
+          </svg>
+          <div class="chart-legend">
+            <span><span class="legend-dot aqi"></span> AQI</span>
+            <span><span class="legend-dot spo2"></span> SpO₂ %</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- AI Recommendation Button -->
+      <button class="ai-button" onclick="getAIRecommendation()">
+        <span class="ai-icon">🤖</span>
+        <span>Get AI Insights</span>
+      </button>
+    </div>
+
+    <!-- Other Panels (Placeholder) -->
+    <div class="panel" id="panel-map">
+      <div class="page-header">
+        <h1 class="page-title">AQI Map</h1>
+        <p class="page-subtitle">Air quality across your city</p>
+      </div>
+      <div class="placeholder-content">
+        <div style="font-size:60px;margin-bottom:20px;">🗺️</div>
+        <p>Interactive AQI map coming soon</p>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-timeline">
+      <div class="page-header">
+        <h1 class="page-title">Exposure Timeline</h1>
+        <p class="page-subtitle">Track your pollution exposure over time</p>
+      </div>
+      <div class="placeholder-content">
+        <div style="font-size:60px;margin-bottom:20px;">📈</div>
+        <p>Exposure timeline coming soon</p>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-public">
+      <div class="page-header">
+        <h1 class="page-title">Public Health Data</h1>
+        <p class="page-subtitle">Regional lung health statistics</p>
+      </div>
+      <div class="placeholder-content">
+        <div style="font-size:60px;margin-bottom:20px;">🏥</div>
+        <p>Public health data coming soon</p>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-ai">
+      <div class="page-header">
+        <h1 class="page-title">AI Assistant</h1>
+        <p class="page-subtitle">Ask anything about your lung health</p>
+      </div>
+      <div class="chat-container">
+        <div class="chat-messages" id="chat-msgs">
+          <div class="msg bot">
+            <div class="msg-bubble">Hello! I'm your PulmoSense AI assistant. I can help you understand your lung health data, provide recommendations, and answer health-related questions. What would you like to know?</div>
+            <div class="msg-time">PulmoSense AI · Now</div>
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" class="chat-input" id="chat-input" placeholder="Ask about your lung health..." onkeypress="if(event.key==='Enter')sendMessage()"/>
+          <button class="chat-send" onclick="sendMessage()">➤</button>
+        </div>
+        <div class="chat-suggestions">
+          <button class="suggestion-btn" onclick="sendSuggestion(this)">💊 Should I take my inhaler?</button>
+          <button class="suggestion-btn" onclick="sendSuggestion(this)">🏃 Is it safe to go for a run?</button>
+          <button class="suggestion-btn" onclick="sendSuggestion(this)">📊 What's my health risk today?</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-settings">
+      <div class="page-header">
+        <h1 class="page-title">Settings</h1>
+        <p class="page-subtitle">Customize your experience</p>
+      </div>
+      <div class="settings-container">
+        <div class="settings-nav">
+          <div class="settings-nav-item active" onclick="setSettingsTab(this)">Profile</div>
+          <div class="settings-nav-item" onclick="setSettingsTab(this)">Alerts</div>
+          <div class="settings-nav-item" onclick="setSettingsTab(this)">Wearable</div>
+          <div class="settings-nav-item" onclick="setSettingsTab(this)">Data</div>
+        </div>
+        <div class="settings-content">
+          <h3>Profile Settings</h3>
+          <div class="form-group"><label>Name</label><input class="form-input" value="Rahul Sharma"/></div>
+          <div class="form-group"><label>Age</label><input class="form-input" type="number" value="28"/></div>
+          <div class="form-group"><label>Height (cm)</label><input class="form-input" type="number" value="175"/></div>
+          <div class="form-group"><label>City</label><input class="form-input" value="Nagpur, Maharashtra"/></div>
+          <button class="save-btn">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ===== NOTIFICATIONS PANEL ===== -->
+<div class="notif-panel" id="notif-panel">
+  <div class="notif-header">
+    <h3>Notifications</h3>
+    <button onclick="toggleNotif()">✕</button>
+  </div>
+  <div class="notif-list">
+    <div class="notif-item warning">
+      <div class="notif-icon">⚠️</div>
+      <div class="notif-content">
+        <div class="notif-title">High AQI Alert</div>
+        <div class="notif-text">AQI has risen to 142. Consider staying indoors.</div>
+        <div class="notif-time">2 min ago</div>
+      </div>
+    </div>
+    <div class="notif-item info">
+      <div class="notif-icon">💨</div>
+      <div class="notif-content">
+        <div class="notif-title">Clean Air Window</div>
+        <div class="notif-text">Air quality will improve at 6:00 PM</div>
+        <div class="notif-time">1 hour ago</div>
+      </div>
+    </div>
+    <div class="notif-item success">
+      <div class="notif-icon">🫁</div>
+      <div class="notif-content">
+        <div class="notif-title">Lung Test Reminder</div>
+        <div class="notif-text">It's time for your weekly spirometry test</div>
+        <div class="notif-time">3 hours ago</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LUNG TEST MODAL ===== -->
+<div class="lung-test-modal hidden" id="lung-test-modal">
+  <div class="lung-test-content">
+    <button class="lung-test-close" onclick="closeLungTest()">✕</button>
+    <div class="lung-test-header">
+      <h2>Spirometry Test</h2>
+      <p>Follow the instructions to measure your lung function</p>
+    </div>
+    
+    <div class="lung-test-tabs">
+      <button class="lung-tab active" onclick="switchLungTab('test', this)">Test</button>
+      <button class="lung-tab" onclick="switchLungTab('history', this)">History</button>
+      <button class="lung-tab" onclick="switchLungTab('comparison', this)">Comparison</button>
+      <button class="lung-tab" onclick="switchLungTab('achievements', this)">Achievements</button>
+    </div>
+    
+    <div class="lung-tab-content active" id="lung-tab-test">
+      <div class="lung-test-display">
+        <div class="lung-test-volume" id="lung-test-volume-display">0.00</div>
+        <div class="lung-test-unit">Liters</div>
+        <div class="lung-test-volume-bar-container">
+          <div class="lung-test-volume-bar" id="lung-test-volume-bar"></div>
+        </div>
+        <div class="lung-test-timer" id="lung-test-timer-display">0.0s</div>
+      </div>
+      
+      <div class="lung-test-controls">
+        <button class="lung-test-btn start" id="lung-test-start-btn" onclick="startLungTest()">▶ Start</button>
+        <button class="lung-test-btn stop" id="lung-test-stop-btn" onclick="stopLungTest()" disabled>⏹ Stop</button>
+        <button class="lung-test-btn reset" id="lung-test-reset-btn" onclick="resetLungTest()" disabled>🔄 Reset</button>
+      </div>
+      
+      <div class="lung-test-results hidden" id="lung-test-results">
+        <h4>Test Results</h4>
+        <div class="lung-test-result-grid">
+          <div class="lung-test-result-item">
+            <div class="lung-test-result-label">FEV1</div>
+            <div class="lung-test-result-value good" id="test-result-fev1">--</div>
+          </div>
+          <div class="lung-test-result-item">
+            <div class="lung-test-result-label">FVC</div>
+            <div class="lung-test-result-value good" id="test-result-fvc">--</div>
+          </div>
+          <div class="lung-test-result-item">
+            <div class="lung-test-result-label">FEV1/FVC</div>
+            <div class="lung-test-result-value" id="test-result-ratio">--</div>
+          </div>
+          <div class="lung-test-result-item">
+            <div class="lung-test-result-label">PEF</div>
+            <div class="lung-test-result-value good" id="test-result-pef">--</div>
+          </div>
+        </div>
+        <button class="export-btn" onclick="exportLungReport()">📥 Export Report</button>
+      </div>
+      
+      <div class="lung-test-instructions">
+        <h4>Instructions:</h4>
+        <ol>
+          <li>Click Start and breathe in deeply</li>
+          <li>Blow into the device as hard and fast as possible</li>
+          <li>Continue blowing until you can't exhale anymore</li>
+          <li>The test will automatically stop after 6 seconds</li>
+        </ol>
+      </div>
+      
+      <!-- Spirometry Chart -->
+      <div class="spirometry-chart">
+        <svg viewBox="0 0 500 180" id="spirometry-svg">
+          <defs>
+            <linearGradient id="spiroNormalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#4ecdc4;stop-opacity:0.3"/>
+              <stop offset="100%" style="stop-color:#4ecdc4;stop-opacity:0"/>
+            </linearGradient>
+            <linearGradient id="spiroPatientGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:0.3"/>
+              <stop offset="100%" style="stop-color:#ff6b6b;stop-opacity:0"/>
+            </linearGradient>
+          </defs>
+          <path id="spirometry-normal-area" fill="url(#spiroNormalGrad)"/>
+          <path id="spirometry-patient-area" fill="url(#spiroPatientGrad)"/>
+          <path id="spirometry-normal-line" fill="none" stroke="#4ecdc4" stroke-width="2"/>
+          <path id="spirometry-patient-line" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+          <circle id="spirometry-fev1-dot" r="5" fill="#fff" stroke="#ff6b6b" stroke-width="2"/>
+          <circle id="spirometry-peak-dot" r="5" fill="#fff" stroke="#ff6b6b" stroke-width="2"/>
+        </svg>
+        <div class="spirometry-legend">
+          <span><span class="legend-line normal"></span> Normal</span>
+          <span><span class="legend-line patient"></span> Your Result</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="lung-tab-content" id="lung-tab-spirometry">
+      <svg viewBox="0 0 540 130" id="history-svg">
+        <path id="history-fev1-line" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+        <path id="history-fvc-line" fill="none" stroke="#4ecdc4" stroke-width="2"/>
+      </svg>
+    </div>
+    
+    <div class="lung-tab-content" id="lung-tab-history">
+      <p style="text-align:center;color:#888;padding:40px;">No test history yet. Complete your first test!</p>
+    </div>
+    
+    <div class="lung-tab-content" id="lung-tab-comparison">
+      <p style="text-align:center;color:#888;padding:40px;">Comparison features coming soon!</p>
+    </div>
+    
+    <div class="lung-tab-content" id="lung-tab-achievements">
+      <p style="text-align:center;color:#888;padding:40px;">Achievements coming soon!</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BREATHING EXERCISES MODAL ===== -->
+<div class="breathing-exercises-modal hidden" id="breathing-exercises-modal">
+  <div class="breathing-exercises-content">
+    <button class="breathing-exercises-close" onclick="closeBreathingExercises()">✕</button>
+    <div class="breathing-exercises-header">
+      <h2>Breathing Exercises</h2>
+      <p>Improve your lung capacity with guided breathing</p>
+    </div>
+    
+    <div class="breathing-exercise-tabs">
+      <button class="breathing-exercise-tab active" onclick="selectBreathingExercise('4-7-8', this)">4-7-8 Relaxation</button>
+      <button class="breathing-exercise-tab" onclick="selectBreathingExercise('box', this)">Box Breathing</button>
+      <button class="breathing-exercise-tab" onclick="selectBreathingExercise('diaphragm', this)">Diaphragm</button>
+    </div>
+    
+    <div class="breathing-visualizer">
+      <div class="breathing-circle" id="breathing-circle">
+        <div class="breathing-instruction" id="breathing-instruction">Ready</div>
+      </div>
+      <div class="breathing-timer" id="breathing-timer">0:00</div>
+      <div class="breathing-cycle" id="breathing-cycle">Cycle 1/5</div>
+    </div>
+    
+    <div class="breathing-description" id="breathing-description">
+      <strong>4-7-8 Breathing:</strong> Inhale for 4 seconds, hold for 7 seconds, exhale for 8 seconds.
+    </div>
+    
+    <div class="breathing-controls">
+      <button class="breathing-btn start" id="breathing-start-btn" onclick="startBreathingExercise()">▶ Start</button>
+      <button class="breathing-btn pause" id="breathing-pause-btn" onclick="pauseBreathingExercise()" disabled>⏸ Pause</button>
+      <button class="breathing-btn stop" id="breathing-stop-btn" onclick="stopBreathingExercise()" disabled>⏹ Stop</button>
+    </div>
+    
+    <div class="breathing-voice-toggle">
+      <span>🔊 Voice Guidance</span>
+      <div class="toggle on" id="breathing-voice-toggle" onclick="toggleBreathingVoice()"></div>
+    </div>
+    
+    <div class="breathing-stats">
+      <div class="breathing-stat"><div class="breathing-stat-value" id="breathing-sessions">12</div><div class="breathing-stat-label">Sessions</div></div>
+      <div class="breathing-stat"><div class="breathing-stat-value" id="breathing-minutes">45</div><div class="breathing-stat-label">Minutes</div></div>
+      <div class="breathing-stat"><div class="breathing-stat-value" id="breathing-streak">4</div><div class="breathing-stat-label">Day Streak</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AI RECOMMENDATION MODAL ===== -->
+<div class="ai-recommendation-modal hidden" id="ai-recommendation-modal">
+  <div class="ai-recommendation-content">
+    <button class="ai-recommendation-close" onclick="closeAIRecommendation()">✕</button>
+    <div class="ai-recommendation-header">
+      <div class="ai-recommendation-icon">🤖</div>
+      <div class="ai-recommendation-title">AI Health Insights</div>
+    </div>
+    <div class="ai-recommendation-body" id="ai-recommendation-body"></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

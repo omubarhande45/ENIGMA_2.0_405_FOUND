@@ -3,13 +3,11 @@ const API_BASE = 'http://localhost:3000/api';
 
 // ===== NAVIGATION =====
 function navigate(page, el){
-// ===== NAVIGATION =====
-function navigate(page, el){
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('panel-'+page).classList.add('active');
   el.classList.add('active');
-  const titles = {dashboard:'Dashboard',map:'AQI Map',timeline:'Exposure Timeline',public:'Public Health',ai:'AI Assistant',lung:'Lung Capacity',settings:'Settings'};
+  const titles = {dashboard:'Dashboard',map:'AQI Map',timeline:'Exposure Timeline',public:'Public Health',ai:'AI Assistant',settings:'Settings'};
   document.getElementById('page-title-display').textContent = titles[page] || page;
   document.getElementById('breadcrumb-current').textContent = titles[page] || page;
 }
