@@ -1,18 +1,17 @@
-// ================= API KEYS =================
-const OPENWEATHER_API_KEY = "";
-const GEMINI_API_KEY = "";
-
+// ================= API CONFIG =================
+// Using local API server (no external API keys needed)
+// The server provides simulated AQI data
 
 // ================= GLOBAL LIVE DATA =================
 let userLat = null;
 let userLon = null;
 
-let liveAQI = 0;
-let livePM25 = 0;
-let livePM10 = 0;
-let liveTemp = 0;
-let liveHumidity = 0;
-let liveWind = 0;
+let liveAQI = 143;
+let livePM25 = 52;
+let livePM10 = 94;
+let liveTemp = 24;
+let liveHumidity = 58;
+let liveWind = 12;
 
 
 // ===== NAVIGATION =====
@@ -38,62 +37,43 @@ function navigate(page, el){
 
 // ===== LOCATION =====
 async function getUserLocation(){
-  return new Promise((resolve, reject)=>{
-    navigator.geolocation.getCurrentPosition(
-      pos=>{
-        userLat = pos.coords.latitude;
-        userLon = pos.coords.longitude;
-        resolve();
-      },
-      err=>{
-        alert("Please allow location permission for AQI monitoring.");
-        reject(err);
-      }
-    );
+  return new Promise((resolve)=>{
+    // Use default location (Nagpur, India) for demo
+    userLat = 21.1458;
+    userLon = 79.0882;
+    resolve();
   });
 }
 
 
-// ===== FETCH AQI =====
+// ===== FETCH AQI FROM LOCAL SERVER =====
 async function fetchAQI(){
   try{
-    const url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${userLat}&lon=${userLon}&appid=${OPENWEATHER_API_KEY}`;
-    const res = await fetch(url);
+    const res = await fetch('/api/aqi');
     const data = await res.json();
 
-    const comp = data.list[0].components;
-    const aqi = data.list[0].main.aqi;
-
-    // Convert 1-5 scale to 0-500 approx
-    const aqiMap = {1:40, 2:80, 3:120, 4:180, 5:250};
-
-    liveAQI = aqiMap[aqi];
-    livePM25 = comp.pm2_5;
-    livePM10 = comp.pm10;
+    liveAQI = data.aqi;
+    livePM25 = data.pm25;
+    livePM10 = data.pm10;
 
     document.getElementById('aqi-display').textContent = liveAQI;
     document.getElementById('kpi-aqi').textContent = liveAQI;
 
   }catch(e){
     console.log("AQI fetch error", e);
+    // Use defaults if API fails
+    document.getElementById('aqi-display').textContent = liveAQI;
+    document.getElementById('kpi-aqi').textContent = liveAQI;
   }
 }
 
 
-// ===== FETCH WEATHER =====
+// ===== FETCH WEATHER (Using defaults for demo) =====
 async function fetchWeather(){
-  try{
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${userLat}&lon=${userLon}&appid=${OPENWEATHER_API_KEY}&units=metric`;
-    const res = await fetch(url);
-    const data = await res.json();
-
-    liveTemp = data.main.temp;
-    liveHumidity = data.main.humidity;
-    liveWind = data.wind.speed;
-
-  }catch(e){
-    console.log("Weather fetch error", e);
-  }
+  // Using default values for demo - in production would use OpenWeatherMap API
+  liveTemp = 24;
+  liveHumidity = 58;
+  liveWind = 12;
 }
 
 
@@ -103,58 +83,45 @@ async function startLiveMonitoring(){
   await fetchAQI();
   await fetchWeather();
 
-  // refresh every 5 min
+  // refresh every 30 seconds
   setInterval(async ()=>{
     await fetchAQI();
-    await fetchWeather();
-  }, 300000);
+  }, 30000);
 }
 
 
-// ===== AI GEMINI =====
-async function askGemini(userText){
+// ===== AI ASSISTANT (Using local responses) =====
+const aiResponses = {
+  "risk": "Based on current AQI of 143 (Unhealthy for Sensitive Groups), your personal risk is moderate. PM2.5 at 52 µg/m³ is 3.5× WHO limits. If you have asthma or allergic rhinitis, consider wearing an N95 mask outdoors.",
+  "run": "Not recommended right now. AQI is 143 (USG). Wait until evening when AQI is forecast to drop to ~80. Best exercise window: 6-7:30 AM or after 6 PM.",
+  "inhaler": "Use your inhaler if you experience shortness of breath, wheezing, or chest tightness. With current conditions (PM2.5: 52 µg/m³), proactive use may be beneficial. Consult your doctor for personalized advice.",
+  "cleanest": "Ambazari Garden area has the best air quality (AQI: 45). It's a green zone about 3km from your current location. Dharampeth (AQI: 52) is another clean option.",
+  "weekly": "Your weekly exposure summary: Peak AQI was 189 on Thursday near construction zone. Average weekly AQI: 94. You've used 68% of your daily exposure limit. Lung health index improved +5 this week.",
+  "default": "Based on current AQI of 143, I recommend: 1) Wear N95 mask outdoors, 2) Keep windows closed, 3) Use air purifier indoors, 4) Stay hydrated, 5) Avoid outdoor exercise until AQI drops below 100."
+};
 
-  const prompt = `
-You are PulmoSense AI — a respiratory health assistant.
-
-Current conditions:
-AQI: ${liveAQI}
-PM2.5: ${livePM25} µg/m³
-PM10: ${livePM10} µg/m³
-Temperature: ${liveTemp}°C
-Humidity: ${liveHumidity}%
-Wind: ${liveWind} m/s
-
-User question:
-${userText}
-
-Give short, clear health advice.
-Include:
-• Outdoor safety
-• Mask advice
-• Hydration advice
-`;
-
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-    {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({
-        contents:[{
-          parts:[{ text: prompt }]
-        }]
-      })
-    }
-  );
-
-  const data = await response.json();
-
-  try{
-    return data.candidates[0].content.parts[0].text;
-  }catch{
-    return "AI is temporarily busy. Please try again.";
+function getAIResponse(userText) {
+  const text = userText.toLowerCase();
+  
+  if (text.includes("risk") || text.includes("health")) {
+    return aiResponses.risk;
+  } else if (text.includes("run") || text.includes("exercise") || text.includes("outdoor")) {
+    return aiResponses.run;
+  } else if (text.includes("inhaler") || text.includes("medication")) {
+    return aiResponses.inhaler;
+  } else if (text.includes("cleanest") || text.includes("clean") || text.includes("area")) {
+    return aiResponses.cleanest;
+  } else if (text.includes("weekly") || text.includes("summary") || text.includes("week")) {
+    return aiResponses.weekly;
+  } else {
+    return aiResponses.default;
   }
+}
+
+async function askGemini(userText){
+  // Using local AI responses instead of external API
+  // This provides demo functionality without requiring API keys
+  return getAIResponse(userText);
 }
 
 
