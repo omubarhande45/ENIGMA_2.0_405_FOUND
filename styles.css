@@ -1,20 +1,20 @@
 :root {
-  --bg: #03060d;
-  --bg2: #060c1a;
-  --surface: #0b1225;
-  --surface2: #0f1830;
-  --surface3: #141f3a;
-  --border: #1e2d52;
-  --border2: #263660;
+  --bg: #ffffff;
+  --bg2: #f8fafc;
+  --surface: #ffffff;
+  --surface2: #f1f5f9;
+  --surface3: #e2e8f0;
+  --border: #e2e8f0;
+  --border2: #cbd5e1;
   --c1: #3b82f6;
   --c2: #06b6d4;
   --c3: #10b981;
   --c4: #f59e0b;
   --c5: #ef4444;
   --c6: #a855f7;
-  --text: #e2e8f8;
-  --text2: #8fa4cc;
-  --text3: #4a5f8a;
+  --text: #1e293b;
+  --text2: #475569;
+  --text3: #94a3b8;
   --good: #10b981;
   --mod: #f59e0b;
   --bad: #ef4444;
@@ -55,7 +55,7 @@ body{
 /* ===== SIDEBAR ===== */
 .sidebar{
   position:fixed;left:0;top:0;bottom:0;width:72px;
-  background:rgba(11,18,37,0.95);
+  background:rgba(229, 230, 234, 0.95);
   border-right:1px solid var(--border);
   backdrop-filter:blur(20px);
   z-index:200;
@@ -288,7 +288,7 @@ body{
 .alert-item:hover{transform:translateX(2px);}
 .alert-item.sev-high{background:rgba(239,68,68,0.07);border-color:rgba(239,68,68,0.2);}
 .alert-item.sev-med{background:rgba(245,158,11,0.07);border-color:rgba(245,158,11,0.2);}
-.alert-item.sev-low{background:rgba(59,130,246,0.06);border-color:rgba(59,130,246,0.15);}
+.alert-item.sev-low{background:rgba(236, 238, 242, 0.06);border-color:rgba(59,130,246,0.15);}
 .alert-item.sev-ok{background:rgba(16,185,129,0.06);border-color:rgba(16,185,129,0.15);}
 .alert-header{display:flex;align-items:center;gap:8px;margin-bottom:3px;}
 .alert-title-text{font-weight:600;font-size:12px;}
