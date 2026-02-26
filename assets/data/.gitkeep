@@ -1,0 +1,14 @@
+# Assets - Data
+
+This folder contains data files used in the PulmoSense application.
+
+## Data Categories
+- Sample/test data
+- Configuration files
+- Export files
+- User data exports
+
+## Supported Formats
+- JSON
+- CSV
+- XML

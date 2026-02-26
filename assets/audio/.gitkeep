@@ -1,0 +1,13 @@
+# Assets - Audio
+
+This folder contains audio files for the PulmoSense application.
+
+## Audio Categories
+- Voice guidance for breathing exercises
+- Alert sounds
+- Notification sounds
+
+## Supported Formats
+- MP3
+- WAV
+- OGG

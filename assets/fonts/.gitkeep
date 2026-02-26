@@ -1,0 +1,11 @@
+# Assets - Fonts
+
+This folder contains custom fonts used in the PulmoSense application.
+
+## Fonts Used
+- Outfit (Google Fonts)
+- Space Mono (Google Fonts)
+- Lora (Google Fonts)
+
+Note: The application uses Google Fonts CDN by default. 
+Local font files can be stored here if offline access is needed.
