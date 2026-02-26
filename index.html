@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PulmoSense v2 — Advanced Lung Health Intelligence</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
-<link rel="stylesheet" href="css/lung-capacity.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -21,6 +20,7 @@
 <!-- ===== ONBOARDING MODAL ===== -->
 <div class="modal-overlay" id="onboarding">
   <div class="modal">
+
     <div class="modal-step active" id="step-1">
       <div style="font-size:40px;margin-bottom:12px;">🫁</div>
       <div class="modal-title">Welcome to PulmoSense</div>
@@ -47,7 +47,7 @@
         <div class="form-group"><label class="form-label">AGE</label><input class="form-input" placeholder="e.g. 28" value="28"/></div>
         <div class="form-group"><label class="form-label">GENDER</label><input class="form-input" placeholder="e.g. Male" value="Male"/></div>
         <div class="form-group"><label class="form-label">CITY</label><input class="form-input" placeholder="e.g. Nagpur" value="Nagpur"/></div>
-        <div class="form-group"><label class="form-label">HEIGHT (CM)</label><input class="form-input" placeholder="e.g. 175" value="175"/></div>
+        <div class="form-group"><label class="form-label">WEARABLE</label><input class="form-input" placeholder="e.g. Fitbit" value="Mi Band 6"/></div>
       </div>
       <div style="margin-top:14px;"><div class="form-label" style="margin-bottom:8px;">EXISTING CONDITIONS (select all that apply)</div>
       <div class="condition-chips">
@@ -105,6 +105,16 @@
       <div class="notif-item-text">Your SpO₂ was 94.8% at 2:15 PM. Logged for health report.</div>
       <div class="notif-item-time">1 hour ago</div>
     </div>
+    <div class="notif-item">
+      <div class="notif-item-title">📊 Daily Exposure Summary</div>
+      <div class="notif-item-text">You reached 68% of daily exposure limit. Stay indoors this evening.</div>
+      <div class="notif-item-time">3 hours ago</div>
+    </div>
+    <div class="notif-item">
+      <div class="notif-item-title">🌤️ Morning Forecast</div>
+      <div class="notif-item-text">Today's AQI forecast: Moderate (78). Best exercise window: 6–7:30 AM.</div>
+      <div class="notif-item-time">8 hours ago</div>
+    </div>
   </div>
 </div>
 
@@ -121,7 +131,7 @@
     <div class="nav-icon">🗺️</div><div class="nav-label">AQI Map</div>
   </div>
   <div class="nav-item" onclick="navigate('timeline',this)">
-    <div class="nav-icon">📍</div><div class="nav-label">Timeline</div>
+    <div class="nav-icon">📍</div><div class="nav-label">Exposure Timeline</div>
   </div>
   <div class="nav-item" onclick="navigate('public',this)">
     <div class="nav-icon">🌍</div><div class="nav-label">Public Health</div>
@@ -228,19 +238,25 @@
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
+          <!-- Track -->
           <circle cx="80" cy="80" r="68" fill="none" stroke="#1e2d52" stroke-width="10" stroke-linecap="round"/>
+          <!-- Inner tracks (bio metrics) -->
           <circle cx="80" cy="80" r="54" fill="none" stroke="#1e2d52" stroke-width="5"/>
           <circle cx="80" cy="80" r="40" fill="none" stroke="#1e2d52" stroke-width="5"/>
+          <!-- Main arc (82%) -->
           <circle id="main-arc" cx="80" cy="80" r="68" fill="none" stroke="url(#lhiGrad)" stroke-width="10"
             stroke-dasharray="427.26" stroke-dashoffset="76.9"
             stroke-linecap="round" transform="rotate(-90 80 80)"
             filter="url(#glow2)"/>
+          <!-- SpO2 arc (98%) -->
           <circle cx="80" cy="80" r="54" fill="none" stroke="#10b981" stroke-width="4"
             stroke-dasharray="339.3" stroke-dashoffset="6.8"
             stroke-linecap="round" transform="rotate(-90 80 80)" opacity="0.7"/>
+          <!-- Resp rate arc (normal = 85%) -->
           <circle cx="80" cy="80" r="40" fill="none" stroke="#a855f7" stroke-width="4"
             stroke-dasharray="251.3" stroke-dashoffset="37.7"
             stroke-linecap="round" transform="rotate(-90 80 80)" opacity="0.7"/>
+          <!-- Lung icon inside -->
           <path d="M72 96 Q62 88 58 74 Q54 60 66 48 Q70 44 76 46 L76 96 Z" fill="#3b82f6" opacity="0.25"/>
           <path d="M88 96 Q98 88 102 74 Q106 60 94 48 Q90 44 84 46 L84 96 Z" fill="#3b82f6" opacity="0.25"/>
           <path d="M72 96 Q62 88 58 74 Q54 60 66 48 Q70 44 76 46 L76 96 Z" fill="none" stroke="#3b82f6" stroke-width="1.5" opacity="0.8"/>
@@ -317,6 +333,10 @@
           <div class="aqi-marker-row">
             <span>Good</span><span>Mod</span><span style="color:var(--c4);">◆ 143</span><span>Unhlthy</span><span>Very</span><span>Hzd</span>
           </div>
+          <div style="margin-top:12px;padding:10px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:10px;">
+            <div style="font-size:10px;color:var(--c4);font-weight:600;margin-bottom:3px;">📈 FORECAST</div>
+            <div style="font-size:11px;color:var(--text2);">AQI expected to drop to <strong style="color:var(--c3);">~90</strong> by 6 PM. Wind from SW will clear pollutants.</div>
+          </div>
         </div>
       </div>
 
@@ -339,6 +359,24 @@
           <div class="poll-bar"><div class="poll-fill" style="width:0%;background:#10b981;" data-w="20"></div></div>
           <div class="poll-who" style="color:#10b981;">WHO: 4 ppm · Safe</div>
         </div>
+        <div class="poll-item" style="--c:#f59e0b;">
+          <div class="poll-name">NO₂</div>
+          <div class="poll-val">38 <span class="poll-unit">µg/m³</span></div>
+          <div class="poll-bar"><div class="poll-fill" style="width:0%;background:#f59e0b;" data-w="45"></div></div>
+          <div class="poll-who" style="color:#10b981;">WHO: 25 µg/m³ · 1.5× limit</div>
+        </div>
+        <div class="poll-item" style="--c:#10b981;">
+          <div class="poll-name">O₃</div>
+          <div class="poll-val">28 <span class="poll-unit">µg/m³</span></div>
+          <div class="poll-bar"><div class="poll-fill" style="width:0%;background:#10b981;" data-w="32"></div></div>
+          <div class="poll-who" style="color:#10b981;">WHO: 100 µg/m³ · Safe</div>
+        </div>
+        <div class="poll-item" style="--c:#06b6d4;">
+          <div class="poll-name">SO₂</div>
+          <div class="poll-val">12 <span class="poll-unit">µg/m³</span></div>
+          <div class="poll-bar"><div class="poll-fill" style="width:0%;background:#06b6d4;" data-w="18"></div></div>
+          <div class="poll-who" style="color:#10b981;">WHO: 40 µg/m³ · Safe</div>
+        </div>
       </div>
     </div>
 
@@ -360,11 +398,25 @@
         <div class="alert-time">15 min ago</div>
       </div>
 
+      <div class="alert-item sev-med">
+        <div class="alert-header"><span>🏭</span><div class="alert-title-text" style="color:#f59e0b;">Industrial Plume Detected</div></div>
+        <div class="alert-body">Wind shift bringing PM10 from Kamptee Road industrial zone. Peak in ~2 hours.</div>
+        <div class="alert-time">30 min ago</div>
+      </div>
+
+      <div class="alert-item sev-ok">
+        <div class="alert-header"><span>🌤️</span><div class="alert-title-text" style="color:#10b981;">Clean Air Window</div></div>
+        <div class="alert-body">AQI forecast to drop below 80 at 6 PM. 90-min safe outdoor window predicted.</div>
+        <div class="alert-time">Forecast</div>
+      </div>
+
+      <!-- Suggestion Quick Actions -->
       <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
         <div style="font-size:9px;letter-spacing:1.5px;color:var(--text3);margin-bottom:8px;">QUICK ACTIONS</div>
         <div style="display:flex;flex-wrap:wrap;gap:6px;">
           <button class="btn btn-ghost" style="padding:5px 10px;font-size:10px;">😷 Mask On</button>
           <button class="btn btn-ghost" style="padding:5px 10px;font-size:10px;">🪴 Purifier On</button>
+          <button class="btn btn-ghost" style="padding:5px 10px;font-size:10px;">🚶 Reschedule</button>
           <button class="btn btn-primary" style="padding:5px 10px;font-size:10px;" onclick="navigate('ai',document.querySelector('[onclick*=\'ai\']'))">🤖 Ask AI</button>
         </div>
       </div>
@@ -376,6 +428,7 @@
         <div style="display:flex;gap:8px;">
           <button class="btn btn-ghost" style="padding:3px 8px;font-size:9px;" onclick="setChartMode('24h',this)">24H</button>
           <button class="btn btn-ghost" style="padding:3px 8px;font-size:9px;" onclick="setChartMode('7d',this)">7D</button>
+          <button class="btn btn-ghost" style="padding:3px 8px;font-size:9px;" onclick="setChartMode('30d',this)">30D</button>
         </div>
       </div>
       <div class="chart-wrap">
@@ -390,14 +443,23 @@
               <stop offset="100%" style="stop-color:#10b981;stop-opacity:0"/>
             </linearGradient>
           </defs>
+          <!-- Grid lines -->
           <line x1="0" y1="35" x2="800" y2="35" stroke="#1e2d52" stroke-width="1" stroke-dasharray="6,4"/>
           <line x1="0" y1="70" x2="800" y2="70" stroke="#1e2d52" stroke-width="1" stroke-dasharray="6,4"/>
           <line x1="0" y1="105" x2="800" y2="105" stroke="#1e2d52" stroke-width="1" stroke-dasharray="6,4"/>
+          <!-- AQI area -->
           <path id="aqi-area" d="" fill="url(#aqiAreaGrad)"/>
+          <!-- SpO2 area -->
           <path id="spo2-area" d="" fill="url(#spo2AreaGrad)"/>
-          <path id="aqi-line" d="" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px rgba(245,158,11,0.5))"/>
+          <!-- AQI line -->
+          <path id="aqi-line" d="" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linejoin="round"
+            style="filter:drop-shadow(0 0 4px rgba(245,158,11,0.5))"/>
+          <!-- SpO2 line -->
           <path id="spo2-line" d="" fill="none" stroke="#10b981" stroke-width="2" stroke-linejoin="round" opacity="0.8"/>
-          <circle id="current-dot" cx="0" cy="0" r="5" fill="#f59e0b" style="filter:drop-shadow(0 0 6px rgba(245,158,11,0.8))"/>
+          <!-- Current marker -->
+          <circle id="current-dot" cx="0" cy="0" r="5" fill="#f59e0b"
+            style="filter:drop-shadow(0 0 6px rgba(245,158,11,0.8))"/>
+          <!-- Labels -->
           <text x="4" y="30" fill="#4a5f8a" font-size="10" font-family="Space Mono">200</text>
           <text x="4" y="65" fill="#4a5f8a" font-size="10" font-family="Space Mono">100</text>
           <text x="4" y="100" fill="#4a5f8a" font-size="10" font-family="Space Mono">50</text>
@@ -412,225 +474,7 @@
 
   </div>
 
-  <!-- LUNG CAPACITY SECTION - MODERN VERSION -->
-  <div class="card" style="margin-top:16px;">
-    <div class="card-title"><span>🫁 Lung Capacity & Spirometry</span>
-      <div style="display:flex;gap:8px;">
-        <button class="spirometry-test-btn" onclick="openBreathingExercises()">🧘 Breathing Exercises</button>
-        <button class="spirometry-test-btn" onclick="openLungTest()">🧪 Start Test</button>
-      </div>
-    </div>
-    
-    <!-- Tabs -->
-    <div class="lung-capacity-tabs">
-      <button class="lung-tab active" onclick="switchLungTab('spirometry', this)">📈 Spirometry</button>
-      <button class="lung-tab" onclick="switchLungTab('history', this)">📊 History</button>
-      <button class="lung-tab" onclick="switchLungTab('comparison', this)">👥 Comparison</button>
-      <button class="lung-tab" onclick="switchLungTab('achievements', this)">🏆 Achievements</button>
-    </div>
-    
-    <!-- Spirometry Tab -->
-    <div class="lung-tab-content active" id="lung-tab-spirometry">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-        <div class="spirometry-chart">
-          <svg class="spirometry-svg" id="spirometry-svg" viewBox="0 0 500 180" preserveAspectRatio="xMidYMid meet">
-            <defs>
-              <linearGradient id="spirometryGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.3"/>
-                <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0"/>
-              </linearGradient>
-            </defs>
-            <line x1="40" y1="20" x2="480" y2="20" class="spirometry-grid-line"/>
-            <line x1="40" y1="60" x2="480" y2="60" class="spirometry-grid-line"/>
-            <line x1="40" y1="100" x2="480" y2="100" class="spirometry-grid-line"/>
-            <line x1="40" y1="140" x2="480" y2="140" class="spirometry-grid-line"/>
-            <text x="35" y="24" class="spirometry-axis-label" text-anchor="end">5L</text>
-            <text x="35" y="64" class="spirometry-axis-label" text-anchor="end">4L</text>
-            <text x="35" y="104" class="spirometry-axis-label" text-anchor="end">3L</text>
-            <text x="35" y="144" class="spirometry-axis-label" text-anchor="end">2L</text>
-            <path id="spirometry-normal-area" class="spirometry-area-normal"/>
-            <path id="spirometry-patient-area" class="spirometry-area-patient"/>
-            <path id="spirometry-normal-line" class="spirometry-line-normal"/>
-            <path id="spirometry-patient-line" class="spirometry-line-patient"/>
-            <circle id="spirometry-fev1-dot" class="spirometry-dot" r="5"/>
-            <circle id="spirometry-peak-dot" class="spirometry-dot" r="5" style="fill:#10b981"/>
-          </svg>
-        </div>
-        
-        <div>
-          <div class="lung-metrics-grid" style="grid-template-columns:repeat(2,1fr);">
-            <div class="lung-metric-card normal">
-              <div class="lung-metric-icon">💨</div>
-              <div class="lung-metric-value good" id="metric-fev1">3.42 L</div>
-              <div class="lung-metric-label">FEV1</div>
-              <div class="lung-metric-status good" id="lung-status">Normal</div>
-            </div>
-            <div class="lung-metric-card normal">
-              <div class="lung-metric-icon">🫁</div>
-              <div class="lung-metric-value good" id="metric-fvc">4.18 L</div>
-              <div class="lung-metric-label">FVC</div>
-            </div>
-            <div class="lung-metric-card normal">
-              <div class="lung-metric-icon">📊</div>
-              <div class="lung-metric-value good" id="metric-ratio">81.8%</div>
-              <div class="lung-metric-label">FEV1/FVC</div>
-            </div>
-            <div class="lung-metric-card normal">
-              <div class="lung-metric-icon">⚡</div>
-              <div class="lung-metric-value good" id="metric-pef">8.2 L/s</div>
-              <div class="lung-metric-label">PEF</div>
-            </div>
-          </div>
-          
-          <div class="predicted-reference" style="margin-top:12px;">
-            <div class="predicted-reference-title">PREDICTED VALUES (for your age & gender)</div>
-            <div class="predicted-reference-grid">
-              <div class="predicted-reference-item">
-                <span class="predicted-reference-label">FEV1</span>
-                <span class="predicted-reference-value" id="pred-fev1">3.65 L</span>
-              </div>
-              <div class="predicted-reference-item">
-                <span class="predicted-reference-label">FVC</span>
-                <span class="predicted-reference-value" id="pred-fvc">4.42 L</span>
-              </div>
-              <div class="predicted-reference-item">
-                <span class="predicted-reference-label">PEF</span>
-                <span class="predicted-reference-value" id="pred-pef">8.7 L/s</span>
-              </div>
-              <div class="predicted-reference-item">
-                <span class="predicted-reference-label">Ratio</span>
-                <span class="predicted-reference-value">82.6%</span>
-              </div>
-            </div>
-          </div>
-          
-          <div style="display:flex;gap:8px;margin-top:12px;">
-            <button class="btn btn-ghost" style="padding:6px 12px;font-size:10px;" onclick="exportLungReport()">📥 Export Report</button>
-            <button class="btn btn-primary" style="padding:6px 12px;font-size:10px;" onclick="getAIRecommendation()">🤖 AI Insights</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- History Tab -->
-    <div class="lung-tab-content" id="lung-tab-history">
-      <div class="lung-history-chart">
-        <svg viewBox="0 0 600 150" class="history-svg">
-          <line x1="40" y1="10" x2="580" y2="10" stroke="#1e2d52" stroke-width="1" stroke-dasharray="4"/>
-          <line x1="40" y1="75" x2="580" y2="75" stroke="#1e2d52" stroke-width="1" stroke-dasharray="4"/>
-          <line x1="40" y1="140" x2="580" y2="140" stroke="#1e2d52" stroke-width="1"/>
-          <path id="history-fev1-line" class="history-line" fill="none" stroke="#3b82f6" stroke-width="2"/>
-          <path id="history-fvc-line" class="history-line" fill="none" stroke="#10b981" stroke-width="2"/>
-          <text x="35" y="14" fill="#4a5f8a" font-size="9" text-anchor="end">4.5L</text>
-          <text x="35" y="79" fill="#4a5f8a" font-size="9" text-anchor="end">3.5L</text>
-          <text x="35" y="144" fill="#4a5f8a" font-size="9" text-anchor="end">2.5L</text>
-        </svg>
-        <div class="history-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div>FEV1</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#10b981;"></div>FVC</div>
-        </div>
-      </div>
-      <div class="history-stats">
-        <div class="history-stat-item">
-          <div class="history-stat-label">Best FEV1</div>
-          <div class="history-stat-value">3.65 L</div>
-          <div class="history-stat-date">May 2024</div>
-        </div>
-        <div class="history-stat-item">
-          <div class="history-stat-label">Average</div>
-          <div class="history-stat-value">3.42 L</div>
-          <div class="history-stat-date">Last 7 tests</div>
-        </div>
-        <div class="history-stat-item">
-          <div class="history-stat-label">Trend</div>
-          <div class="history-stat-value positive">↑ +5.2%</div>
-          <div class="history-stat-date">Improving</div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Comparison Tab -->
-    <div class="lung-tab-content" id="lung-tab-comparison">
-      <div class="comparison-container">
-        <div class="comparison-chart">
-          <div class="comparison-bar-group">
-            <div class="comparison-label">FEV1</div>
-            <div class="comparison-bars">
-              <div class="comparison-bar you" style="height:85%;"><span>3.42L</span></div>
-              <div class="comparison-bar norm" style="height:80%;"><span>3.65L</span></div>
-              <div class="comparison-bar pop" style="height:75%;"><span>3.40L</span></div>
-            </div>
-            <div class="comparison-xlabels">
-              <span style="color:#3b82f6">You</span>
-              <span style="color:#10b981">Predicted</span>
-              <span style="color:#a855f7">Population</span>
-            </div>
-          </div>
-        </div>
-        <div class="comparison-summary">
-          <div class="comparison-percentile">
-            <div class="percentile-value">78<sup>th</sup></div>
-            <div class="percentile-label">Percentile</div>
-            <div class="percentile-desc">Your lung function is better than 78% of people your age & gender</div>
-          </div>
-          <div class="comparison-grade">
-            <div class="grade-a">A+</div>
-            <div class="grade-label">Overall Grade</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Achievements Tab -->
-    <div class="lung-tab-content" id="lung-tab-achievements">
-      <div class="achievements-grid">
-        <div class="achievement-card unlocked">
-          <div class="achievement-icon">🌟</div>
-          <div class="achievement-title">First Breath</div>
-          <div class="achievement-desc">Complete your first lung test</div>
-          <div class="achievement-date">Jan 15, 2024</div>
-        </div>
-        <div class="achievement-card unlocked">
-          <div class="achievement-icon">📅</div>
-          <div class="achievement-title">Consistent</div>
-          <div class="achievement-desc">Complete 7 tests in a row</div>
-          <div class="achievement-date">Feb 20, 2024</div>
-        </div>
-        <div class="achievement-card unlocked">
-          <div class="achievement-icon">📈</div>
-          <div class="achievement-title">Improving</div>
-          <div class="achievement-desc">Show 10% improvement in FEV1</div>
-          <div class="achievement-date">Mar 10, 2024</div>
-        </div>
-        <div class="achievement-card">
-          <div class="achievement-icon">🏆</div>
-          <div class="achievement-title">Master Breather</div>
-          <div class="achievement-desc">Complete 30 tests with all optimal</div>
-          <div class="achievement-progress"><div class="achievement-progress-bar" style="width:47%;">47%</div></div>
-        </div>
-        <div class="achievement-card">
-          <div class="achievement-icon">🧘</div>
-          <div class="achievement-title">Zen Master</div>
-          <div class="achievement-desc">Complete 50 breathing exercises</div>
-          <div class="achievement-progress"><div class="achievement-progress-bar" style="width:32%;">32%</div></div>
-        </div>
-        <div class="achievement-card">
-          <div class="achievement-icon">⭐</div>
-          <div class="achievement-title">Perfect Score</div>
-          <div class="achievement-desc">Get 100% predicted values once</div>
-          <div class="achievement-progress"><div class="achievement-progress-bar" style="width:68%;">68%</div></div>
-        </div>
-      </div>
-      <div class="gamification-score">
-        <div class="score-label">Your Lung Health Score</div>
-        <div class="score-value">2,450</div>
-        <div class="score-rank">Rank: Silver 🌙</div>
-        <div class="score-progress"><div class="score-progress-bar" style="width:65%;"></div><span>350 points to Gold</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- AI Recommendations Row -->
+  <!-- Suggestions Row -->
   <div style="margin-top:16px;">
     <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px;">
       <span>🤖 AI Preventive Recommendations</span>
@@ -641,20 +485,38 @@
       <div class="sugg-card">
         <div class="sugg-emoji">😷</div>
         <div class="sugg-title">Wear N95 Mask</div>
-        <div class="sugg-text">PM2.5 at 52 µg/m³ is 3.5× WHO limits. N95 filters 95% of airborne particles.</div>
+        <div class="sugg-text">PM2.5 at 52 µg/m³ is 3.5× WHO limits. N95 filters 95% of airborne particles. Critical for outdoor activities today.</div>
         <div class="sugg-tags"><div class="tag tag-urgent">Urgent</div><div class="tag tag-rec">Outdoor</div></div>
       </div>
       <div class="sugg-card">
         <div class="sugg-emoji">🏃</div>
         <div class="sugg-title">Delay Outdoor Exercise</div>
-        <div class="sugg-text">AQI forecast drops to ~80 by 6 PM. Postpone your run 3 hours for 40% lower exposure.</div>
+        <div class="sugg-text">AQI forecast drops to ~80 by 6 PM. Postpone your run 3 hours for 40% lower exposure and 25% better lung performance.</div>
         <div class="sugg-tags"><div class="tag tag-rec">Recommended</div><div class="tag tag-good">+Health</div></div>
       </div>
       <div class="sugg-card">
         <div class="sugg-emoji">🪴</div>
         <div class="sugg-title">Activate Air Purifier</div>
-        <div class="sugg-text">Indoor AQI sensor shows 68 µg/m³. Activate HEPA purifier and close windows.</div>
+        <div class="sugg-text">Indoor AQI sensor shows 68 µg/m³. Activate HEPA purifier and close windows. Target: below 35 µg/m³ indoors.</div>
         <div class="sugg-tags"><div class="tag tag-urgent">Urgent</div><div class="tag tag-rec">Indoor</div></div>
+      </div>
+      <div class="sugg-card">
+        <div class="sugg-emoji">🛣️</div>
+        <div class="sugg-title">Alternate Commute Route</div>
+        <div class="sugg-text">AI found a route via Laxmi Nagar with 38% lower NO₂ than your current route. +6 mins but much safer lungs.</div>
+        <div class="sugg-tags"><div class="tag tag-rec">Route Optimization</div></div>
+      </div>
+      <div class="sugg-card">
+        <div class="sugg-emoji">💧</div>
+        <div class="sugg-title">Increase Hydration</div>
+        <div class="sugg-text">High pollution accelerates mucus buildup. Drink 2.5–3L water today. Helps lungs clear particulate matter faster.</div>
+        <div class="sugg-tags"><div class="tag tag-opt">Optional</div><div class="tag tag-good">Easy Win</div></div>
+      </div>
+      <div class="sugg-card">
+        <div class="sugg-emoji">🩺</div>
+        <div class="sugg-title">Pulmonologist Check-In</div>
+        <div class="sugg-text">SpO₂ dipped to 94.8% at 2 PM today — 2nd occurrence this week. AI recommends discussing with your doctor.</div>
+        <div class="sugg-tags"><div class="tag tag-rec">Medical</div><div class="tag tag-urgent">Flag</div></div>
       </div>
     </div>
   </div>
@@ -663,34 +525,332 @@
 
 <!-- ===== MAP PANEL ===== -->
 <div class="panel" id="panel-map">
-  <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:12px;">🗺️ Live AQI Heatmap · Nagpur City</div>
-  <div class="card">
-    <div style="padding:60px;text-align:center;color:var(--text3);">
-      <div style="font-size:48px;margin-bottom:16px;">🗺️</div>
-      <div>Interactive map view coming soon</div>
-      <div style="font-size:12px;margin-top:8px;">Real-time AQI heatmap with 50+ sensors</div>
+  <div style="display:grid;grid-template-columns:1fr 300px;gap:16px;">
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:12px;">🗺️ Live AQI Heatmap · Nagpur City</div>
+      <div class="map-container">
+        <div class="map-bg">
+          <!-- Simulated city map using SVG -->
+          <svg width="100%" height="100%" viewBox="0 0 700 340" style="position:absolute;inset:0;">
+            <!-- Roads -->
+            <line x1="0" y1="170" x2="700" y2="170" stroke="#1e2d52" stroke-width="3"/>
+            <line x1="350" y1="0" x2="350" y2="340" stroke="#1e2d52" stroke-width="3"/>
+            <line x1="0" y1="85" x2="700" y2="255" stroke="#1e2d52" stroke-width="1.5" opacity="0.5"/>
+            <line x1="0" y1="255" x2="700" y2="85" stroke="#1e2d52" stroke-width="1.5" opacity="0.5"/>
+            <!-- Districts -->
+            <rect x="50" y="30" width="120" height="80" rx="8" fill="rgba(239,68,68,0.1)" stroke="rgba(239,68,68,0.2)" stroke-width="1"/>
+            <text x="110" y="75" text-anchor="middle" fill="#ef4444" font-size="9" font-family="Outfit">Kamptee Road</text>
+            <rect x="530" y="180" width="120" height="80" rx="8" fill="rgba(239,68,68,0.08)" stroke="rgba(239,68,68,0.15)" stroke-width="1"/>
+            <text x="590" y="225" text-anchor="middle" fill="#ef4444" font-size="9" font-family="Outfit">Hingna MIDC</text>
+            <rect x="280" y="140" width="140" height="70" rx="8" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.15)" stroke-width="1"/>
+            <text x="350" y="178" text-anchor="middle" fill="#f59e0b" font-size="9" font-family="Outfit">Sitabuldi</text>
+            <rect x="80" y="220" width="120" height="70" rx="8" fill="rgba(16,185,129,0.08)" stroke="rgba(16,185,129,0.15)" stroke-width="1"/>
+            <text x="140" y="258" text-anchor="middle" fill="#10b981" font-size="9" font-family="Outfit">Ambazari</text>
+            <rect x="450" y="50" width="120" height="70" rx="8" fill="rgba(16,185,129,0.06)" stroke="rgba(16,185,129,0.12)" stroke-width="1"/>
+            <text x="510" y="88" text-anchor="middle" fill="#10b981" font-size="9" font-family="Outfit">Dharampeth</text>
+          </svg>
+        </div>
+        <div class="map-grid"></div>
+
+        <!-- Hotspots -->
+        <div class="map-hotspot" style="width:50px;height:50px;background:rgba(239,68,68,0.85);color:white;top:40px;left:70px;animation-delay:0s;color:#fff;">
+          <div style="text-align:center;"><div style="font-size:14px;font-weight:800;">198</div><div style="font-size:7px;">AQI</div></div>
+        </div>
+        <div class="map-hotspot" style="width:44px;height:44px;background:rgba(239,68,68,0.75);color:white;top:190px;right:80px;animation-delay:0.5s;">
+          <div style="text-align:center;"><div style="font-size:13px;font-weight:800;">167</div><div style="font-size:7px;">AQI</div></div>
+        </div>
+        <div class="map-hotspot" style="width:40px;height:40px;background:rgba(245,158,11,0.85);color:white;top:155px;left:310px;animation-delay:1s;">
+          <div style="text-align:center;"><div style="font-size:12px;font-weight:800;">143</div><div style="font-size:7px;">AQI</div></div>
+        </div>
+        <div class="map-hotspot" style="width:35px;height:35px;background:rgba(16,185,129,0.85);color:white;top:240px;left:100px;animation-delay:1.5s;">
+          <div style="text-align:center;"><div style="font-size:11px;font-weight:800;">45</div><div style="font-size:7px;">AQI</div></div>
+        </div>
+        <div class="map-hotspot" style="width:35px;height:35px;background:rgba(16,185,129,0.8);color:white;top:60px;right:120px;animation-delay:2s;">
+          <div style="text-align:center;"><div style="font-size:11px;font-weight:800;">52</div><div style="font-size:7px;">AQI</div></div>
+        </div>
+
+        <!-- User location pin -->
+        <div style="position:absolute;top:155px;left:350px;transform:translate(-50%,-50%);z-index:10;cursor:pointer;">
+          <div style="width:16px;height:16px;background:var(--c1);border-radius:50%;border:3px solid white;box-shadow:0 0 0 4px rgba(59,130,246,0.3),0 4px 12px rgba(0,0,0,0.4);"></div>
+          <div style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--c1);border-radius:6px;padding:4px 8px;font-size:9px;white-space:nowrap;margin-bottom:4px;color:var(--c1);">📍 You · AQI 143</div>
+        </div>
+
+        <div class="map-controls">
+          <div class="map-btn">+</div>
+          <div class="map-btn">−</div>
+          <div class="map-btn">⌖</div>
+          <div class="map-btn">🔄</div>
+        </div>
+
+        <div class="map-legend">
+          <div class="map-legend-title">AQI SCALE</div>
+          <div class="map-legend-row"><div class="map-legend-dot" style="background:#00e400;"></div>Good (0-50)</div>
+          <div class="map-legend-row"><div class="map-legend-dot" style="background:#ffff00;"></div>Moderate (51-100)</div>
+          <div class="map-legend-row"><div class="map-legend-dot" style="background:#ff7e00;"></div>USG (101-150)</div>
+          <div class="map-legend-row"><div class="map-legend-dot" style="background:#ff0000;"></div>Unhealthy (151-200)</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card">
+        <div class="card-title"><span>📊 Hotspot Rankings</span></div>
+        <div id="hotspot-list">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;">
+            <div style="width:32px;height:32px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#ef4444;flex-shrink:0;">1</div>
+            <div style="flex:1;"><div style="font-weight:600;font-size:12px;">Kamptee Road</div><div style="font-size:10px;color:var(--text3);">Industrial · PM10 215 µg/m³</div></div>
+            <div style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:#ef4444;">198</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;">
+            <div style="width:32px;height:32px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fc8181;flex-shrink:0;">2</div>
+            <div style="flex:1;"><div style="font-weight:600;font-size:12px;">Hingna MIDC</div><div style="font-size:10px;color:var(--text3);">Chemical · NOx elevated</div></div>
+            <div style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:#fc8181;">167</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;">
+            <div style="width:32px;height:32px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#f59e0b;flex-shrink:0;">3</div>
+            <div style="flex:1;"><div style="font-weight:600;font-size:12px;">Sitabuldi</div><div style="font-size:10px;color:var(--text3);">Traffic · You are here</div></div>
+            <div style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:#f59e0b;">143</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 0;cursor:pointer;">
+            <div style="width:32px;height:32px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#10b981;flex-shrink:0;">4</div>
+            <div style="flex:1;"><div style="font-weight:600;font-size:12px;">Ambazari Garden</div><div style="font-size:10px;color:var(--text3);">Park · Nearest clean zone</div></div>
+            <div style="font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:#10b981;">45</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>🌬️ Wind & Weather</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div class="bio-item"><div class="bio-val" style="color:var(--c2);">12</div><div class="bio-label">Wind km/h SW</div></div>
+          <div class="bio-item"><div class="bio-val" style="color:var(--c4);">24°C</div><div class="bio-label">Temperature</div></div>
+          <div class="bio-item"><div class="bio-val" style="color:var(--c1);">58%</div><div class="bio-label">Humidity</div></div>
+          <div class="bio-item"><div class="bio-val" style="color:var(--text2);">1013</div><div class="bio-label">Pressure hPa</div></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ===== TIMELINE ===== -->
+<!-- ===== EXPOSURE TIMELINE ===== -->
 <div class="panel" id="panel-timeline">
-  <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:12px;">📍 Today's Exposure Timeline</div>
-  <div class="card">
-    <div style="padding:40px;text-align:center;color:var(--text3);">
-      <div style="font-size:48px;margin-bottom:16px;">📍</div>
-      <div>Timeline view coming soon</div>
+  <div style="display:grid;grid-template-columns:1fr 280px;gap:16px;">
+    <div class="card">
+      <div class="card-title"><span>📍 Today's Exposure Timeline</span></div>
+      <div class="timeline" style="margin-top:12px;">
+
+        <div class="tl-item">
+          <div class="tl-time">6:00 AM</div>
+          <div class="tl-dot" style="background:#10b981;"></div>
+          <div class="tl-card">
+            <div class="tl-title">Morning Walk — Ambazari Garden <div class="aqi-badge" style="background:rgba(16,185,129,0.15);color:#10b981;">AQI 45</div></div>
+            <div class="tl-detail">Good air quality. PM2.5 18 µg/m³. SpO₂ stable at 98.8%. Duration: 45 mins. Lung impact: <strong style="color:#10b981;">Minimal</strong>. Ideal conditions for exercise.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-time">7:30 AM</div>
+          <div class="tl-dot" style="background:#eab308;"></div>
+          <div class="tl-card">
+            <div class="tl-title">Commute — Auto Rickshaw <div class="aqi-badge" style="background:rgba(234,179,8,0.15);color:#eab308;">AQI 78</div></div>
+            <div class="tl-detail">Moderate pollution during rush hour. NO₂ spike detected near Sitabuldi. SpO₂ dipped to 97.4%. Duration: 28 mins. Impact: <strong style="color:#eab308;">Mild</strong>.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-time">9:00 AM</div>
+          <div class="tl-dot" style="background:#3b82f6;"></div>
+          <div class="tl-card">
+            <div class="tl-title">Office Building (Indoor, HEPA) <div class="aqi-badge" style="background:rgba(59,130,246,0.15);color:#60a5fa;">AQI 38</div></div>
+            <div class="tl-detail">Good indoor air quality. HEPA filtration active. SpO₂ recovered to 98.5%. Lung health index improved +3 pts. Duration: 3h continuous. Phase: <strong style="color:#3b82f6;">Recovery</strong>.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-time">12:30 PM</div>
+          <div class="tl-dot" style="background:#f97316;"></div>
+          <div class="tl-card">
+            <div class="tl-title">Lunch Break — Street Market <div class="aqi-badge" style="background:rgba(249,115,22,0.15);color:#f97316;">AQI 134</div></div>
+            <div class="tl-detail">Elevated smoke from cooking stalls. PM2.5 peaked at 64 µg/m³. SpO₂ dropped to 96.2%. Resp rate +3/min. Duration: 40 mins. Impact: <strong style="color:#f97316;">Moderate</strong>.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-time">2:00 PM</div>
+          <div class="tl-dot" style="background:#ef4444;box-shadow:0 0 10px rgba(239,68,68,0.5);"></div>
+          <div class="tl-card" style="border-color:rgba(239,68,68,0.25);background:rgba(239,68,68,0.04);">
+            <div class="tl-title">⚠ Construction Zone Crossing <div class="aqi-badge" style="background:rgba(239,68,68,0.15);color:#ef4444;">AQI 189</div></div>
+            <div class="tl-detail">Extreme dust. PM10: 210 µg/m³. SpO₂ dropped to <strong style="color:#ef4444;">94.8%</strong>. Wearable flagged respiratory stress. Emergency alert sent. Duration: 15 mins. Impact: <strong style="color:#ef4444;">HIGH — Action Required</strong>.</div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-time">3:30 PM</div>
+          <div class="tl-dot" style="background:#3b82f6;"></div>
+          <div class="tl-card">
+            <div class="tl-title">Indoor — Current Location <div class="aqi-badge" style="background:rgba(59,130,246,0.15);color:#60a5fa;">AQI 52</div></div>
+            <div class="tl-detail">Recovery underway. SpO₂ recovering to 97.4%. Indoor purifier activated. LHI recovering. AI recommends 2h rest. Expected full recovery by <strong>5:30 PM</strong>.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card">
+        <div class="card-title"><span>📊 Daily Summary</span></div>
+        <div class="bio-grid">
+          <div class="bio-item"><div class="bio-val" style="color:var(--c4)">3.2h</div><div class="bio-label">Total Exposure</div></div>
+          <div class="bio-item"><div class="bio-val" style="color:var(--c5)">189</div><div class="bio-label">Peak AQI</div></div>
+          <div class="bio-item"><div class="bio-val" style="color:var(--c5)">94.8%</div><div class="bio-label">Min SpO₂</div></div>
+          <div class="bio-item"><div class="bio-val" style="color:var(--c2)">94</div><div class="bio-label">Avg AQI</div></div>
+        </div>
+        <div style="margin-top:12px;">
+          <div style="font-size:9px;color:var(--text3);margin-bottom:4px;letter-spacing:1px;">DAILY BURDEN (68% LIMIT USED)</div>
+          <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;">
+            <div style="width:68%;height:100%;background:linear-gradient(90deg,#10b981 0%,#f59e0b 50%,#ef4444 100%);border-radius:4px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>📅 Weekly Exposure</span></div>
+        <div style="display:flex;align-items:flex-end;gap:6px;height:80px;">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="flex:1;width:100%;border-radius:4px 4px 0 0;background:rgba(16,185,129,0.4);min-height:10px;" data-h="35%"></div>
+            <div style="font-size:9px;color:var(--text3);">Mon</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="flex:1;width:100%;border-radius:4px 4px 0 0;background:rgba(245,158,11,0.4);min-height:10px;" data-h="60%"></div>
+            <div style="font-size:9px;color:var(--text3);">Tue</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="flex:1;width:100%;border-radius:4px 4px 0 0;background:rgba(59,130,246,0.4);min-height:10px;"></div>
+            <div style="font-size:9px;color:var(--text3);">Wed</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="flex:1;width:100%;border-radius:4px 4px 0 0;background:rgba(249,115,22,0.4);min-height:10px;"></div>
+            <div style="font-size:9px;color:var(--text3);">Thu</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="flex:1;width:100%;border-radius:4px 4px 0 0;background:rgba(16,185,129,0.4);min-height:10px;"></div>
+            <div style="font-size:9px;color:var(--text3);">Fri</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="flex:1;width:100%;border-radius:4px 4px 0 0;background:rgba(59,130,246,0.3);min-height:10px;"></div>
+            <div style="font-size:9px;color:var(--text3);">Sat</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="flex:1;width:100%;border-radius:4px 4px 0 0;background:linear-gradient(to top,#ef4444,#f59e0b);min-height:10px;box-shadow:0 0 8px rgba(239,68,68,0.3);"></div>
+            <div style="font-size:9px;color:var(--c4);font-weight:600;">Today</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- ===== PUBLIC HEALTH ===== -->
 <div class="panel" id="panel-public">
-  <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:12px;">🌍 Public Health Dashboard</div>
-  <div class="card">
-    <div style="padding:40px;text-align:center;color:var(--text3);">
-      <div style="font-size:48px;margin-bottom:16px;">🌍</div>
-      <div>Public health analytics coming soon</div>
+  <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:16px;">🌍 Nagpur City — Public Health Intelligence Dashboard</div>
+  <div class="pub-grid">
+    <div class="pub-stat">
+      <div class="pub-icon">😮‍💨</div>
+      <div class="pub-val">4,280</div>
+      <div class="pub-label">Respiratory Cases / Month</div>
+      <div class="pub-delta" style="background:rgba(239,68,68,0.12);color:#ef4444;">↑ 12% vs last month</div>
+    </div>
+    <div class="pub-stat">
+      <div class="pub-icon">🏥</div>
+      <div class="pub-val">187</div>
+      <div class="pub-label">ER Admissions (Breathing)</div>
+      <div class="pub-delta" style="background:rgba(239,68,68,0.12);color:#ef4444;">↑ 8% vs last month</div>
+    </div>
+    <div class="pub-stat">
+      <div class="pub-icon">🌍</div>
+      <div class="pub-val">2.1M</div>
+      <div class="pub-label">People at Risk Today</div>
+      <div class="pub-delta" style="background:rgba(245,158,11,0.12);color:#f59e0b;">⚠ High AQI Zones Active</div>
+    </div>
+    <div class="pub-stat">
+      <div class="pub-icon">💊</div>
+      <div class="pub-val">89%</div>
+      <div class="pub-label">Inhaler Compliance Rate</div>
+      <div class="pub-delta" style="background:rgba(16,185,129,0.12);color:#10b981;">↓ Improved 3%</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div class="card">
+      <div class="card-title"><span>📈 AQI vs Hospital Admissions Correlation</span></div>
+      <svg width="100%" height="200" viewBox="0 0 500 200" style="margin-top:8px;">
+        <defs>
+          <linearGradient id="corrGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.5"/>
+            <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:0.5"/>
+          </linearGradient>
+        </defs>
+        <!-- Grid -->
+        <line x1="40" y1="10" x2="40" y2="160" stroke="#1e2d52" stroke-width="1"/>
+        <line x1="40" y1="160" x2="490" y2="160" stroke="#1e2d52" stroke-width="1"/>
+        <line x1="40" y1="55" x2="490" y2="55" stroke="#1e2d52" stroke-width="1" stroke-dasharray="4"/>
+        <line x1="40" y1="107" x2="490" y2="107" stroke="#1e2d52" stroke-width="1" stroke-dasharray="4"/>
+        <!-- AQI bars -->
+        <rect x="58" y="100" width="25" height="60" rx="3" fill="url(#corrGrad)" opacity="0.7"/>
+        <rect x="108" y="80" width="25" height="80" rx="3" fill="url(#corrGrad)" opacity="0.7"/>
+        <rect x="158" y="65" width="25" height="95" rx="3" fill="url(#corrGrad)" opacity="0.7"/>
+        <rect x="208" y="88" width="25" height="72" rx="3" fill="url(#corrGrad)" opacity="0.7"/>
+        <rect x="258" y="40" width="25" height="120" rx="3" fill="url(#corrGrad)" opacity="0.7"/>
+        <rect x="308" y="30" width="25" height="130" rx="3" fill="url(#corrGrad)" opacity="0.7"/>
+        <rect x="358" y="50" width="25" height="110" rx="3" fill="url(#corrGrad)" opacity="0.7"/>
+        <rect x="408" y="25" width="25" height="135" rx="3" fill="url(#corrGrad)" opacity="0.7"/>
+        <rect x="458" y="38" width="25" height="122" rx="3" fill="url(#corrGrad)" opacity="0.7"/>
+        <!-- Admissions line -->
+        <polyline points="70,105 120,88 170,72 220,95 270,48 320,38 370,58 420,32 470,45"
+          fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linejoin="round"
+          style="filter:drop-shadow(0 0 4px rgba(239,68,68,0.5))"/>
+        <!-- Labels -->
+        <text x="35" y="14" fill="#4a5f8a" font-size="9" text-anchor="end">High</text>
+        <text x="35" y="60" fill="#4a5f8a" font-size="9" text-anchor="end">Mid</text>
+        <text x="35" y="112" fill="#4a5f8a" font-size="9" text-anchor="end">Low</text>
+        <text x="70" y="178" fill="#4a5f8a" font-size="9" text-anchor="middle">Jan</text>
+        <text x="120" y="178" fill="#4a5f8a" font-size="9" text-anchor="middle">Feb</text>
+        <text x="170" y="178" fill="#4a5f8a" font-size="9" text-anchor="middle">Mar</text>
+        <text x="220" y="178" fill="#4a5f8a" font-size="9" text-anchor="middle">Apr</text>
+        <text x="270" y="178" fill="#4a5f8a" font-size="9" text-anchor="middle">May</text>
+        <text x="320" y="178" fill="#4a5f8a" font-size="9" text-anchor="middle">Jun</text>
+        <text x="370" y="178" fill="#4a5f8a" font-size="9" text-anchor="middle">Jul</text>
+        <text x="420" y="178" fill="#4a5f8a" font-size="9" text-anchor="middle">Aug</text>
+        <text x="470" y="178" fill="#4a5f8a" font-size="9" text-anchor="middle">Sep</text>
+        <!-- Correlation label -->
+        <text x="490" y="195" fill="#3b82f6" font-size="10" text-anchor="end" font-family="Outfit" font-weight="600">r = 0.87 correlation</text>
+      </svg>
+      <div style="display:flex;gap:12px;margin-top:8px;">
+        <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div>AQI Level</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div>ER Admissions</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>🏙️ Vulnerable Population Zones</span></div>
+      <div style="margin-top:8px;display:flex;flex-direction:column;gap:8px;">
+        <div style="padding:12px;background:var(--surface2);border:1px solid rgba(239,68,68,0.2);border-radius:10px;display:flex;justify-content:space-between;align-items:center;">
+          <div><div style="font-weight:600;font-size:12px;">Elderly (60+ yrs)</div><div style="font-size:10px;color:var(--text3);">High sensitivity to PM2.5 & NO₂</div></div>
+          <div style="text-align:right;"><div style="font-family:'Space Mono';font-size:16px;font-weight:700;color:#ef4444;">82,400</div><div style="font-size:9px;color:var(--text3);">at risk today</div></div>
+        </div>
+        <div style="padding:12px;background:var(--surface2);border:1px solid rgba(245,158,11,0.2);border-radius:10px;display:flex;justify-content:space-between;align-items:center;">
+          <div><div style="font-weight:600;font-size:12px;">Children (0-12 yrs)</div><div style="font-size:10px;color:var(--text3);">Developing lungs most vulnerable</div></div>
+          <div style="text-align:right;"><div style="font-family:'Space Mono';font-size:16px;font-weight:700;color:#f59e0b;">1,24,000</div><div style="font-size:9px;color:var(--text3);">at risk today</div></div>
+        </div>
+        <div style="padding:12px;background:var(--surface2);border:1px solid rgba(168,85,247,0.2);border-radius:10px;display:flex;justify-content:space-between;align-items:center;">
+          <div><div style="font-weight:600;font-size:12px;">Asthma Patients</div><div style="font-size:10px;color:var(--text3);">Immediate bronchospasm risk</div></div>
+          <div style="text-align:right;"><div style="font-family:'Space Mono';font-size:16px;font-weight:700;color:#a855f7;">18,200</div><div style="font-size:9px;color:var(--text3);">at risk today</div></div>
+        </div>
+        <div style="padding:10px;background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:10px;">
+          <div style="font-size:10px;color:var(--c1);">🤖 AI PUBLIC ALERT ISSUED</div>
+          <div style="font-size:11px;color:var(--text2);margin-top:3px;">School outdoor activities recommended to be cancelled in Kamptee Road zone for rest of today.</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -704,6 +864,10 @@
         <div class="chat-title">PulmoSense AI Assistant</div>
         <div class="chat-sub"><div class="live-dot" style="width:6px;height:6px;"></div>Online · Analyzing your health data</div>
       </div>
+      <div style="margin-left:auto;display:flex;gap:8px;">
+        <button class="btn btn-ghost" style="padding:5px 10px;font-size:11px;">📤 Export Chat</button>
+        <button class="btn btn-ghost" style="padding:5px 10px;font-size:11px;">🗑️ Clear</button>
+      </div>
     </div>
 
     <div class="chat-messages" id="chat-msgs">
@@ -711,7 +875,7 @@
         <div class="msg-bubble">
           👋 Hi Rahul! I'm your PulmoSense AI. I have access to your real-time health data, current AQI readings, and your 30-day history.<br><br>
           <strong>⚠️ Today's Health Brief:</strong> Your AQI is currently <strong>143 (USG)</strong>, and I detected a SpO₂ dip to 94.8% at 2 PM. I recommend avoiding further outdoor exposure today.<br><br>
-          How can I help you?
+          How can I help you? You can ask me about your lung health, pollution forecasts, or personalized recommendations.
         </div>
         <div class="msg-time">PulmoSense AI · Now</div>
       </div>
@@ -721,6 +885,8 @@
       <div class="chat-sugg-chip" onclick="sendSuggestion(this)">🌡️ What's my health risk today?</div>
       <div class="chat-sugg-chip" onclick="sendSuggestion(this)">🏃 Can I go for a run now?</div>
       <div class="chat-sugg-chip" onclick="sendSuggestion(this)">💊 Should I use my inhaler?</div>
+      <div class="chat-sugg-chip" onclick="sendSuggestion(this)">📍 What's the cleanest area nearby?</div>
+      <div class="chat-sugg-chip" onclick="sendSuggestion(this)">📊 Show my weekly exposure summary</div>
     </div>
 
     <div class="chat-input-row">
@@ -738,6 +904,8 @@
       <div class="settings-nav-item active" onclick="setSettingsTab(this)">👤 Profile</div>
       <div class="settings-nav-item" onclick="setSettingsTab(this)">🔔 Alerts</div>
       <div class="settings-nav-item" onclick="setSettingsTab(this)">⌚ Wearable</div>
+      <div class="settings-nav-item" onclick="setSettingsTab(this)">🎨 Display</div>
+      <div class="settings-nav-item" onclick="setSettingsTab(this)">🔒 Privacy</div>
     </div>
     <div class="settings-content">
       <div class="settings-section">
@@ -746,14 +914,23 @@
           <div class="form-group"><label class="form-label">FULL NAME</label><input class="form-input" value="Rahul Sharma"/></div>
           <div class="form-group"><label class="form-label">AGE</label><input class="form-input" value="28"/></div>
           <div class="form-group"><label class="form-label">CITY</label><input class="form-input" value="Nagpur, Maharashtra"/></div>
-          <div class="form-group"><label class="form-label">HEIGHT (CM)</label><input class="form-input" value="175"/></div>
+          <div class="form-group"><label class="form-label">WEARABLE DEVICE</label><input class="form-input" value="Mi Band 6"/></div>
         </div>
+        <div style="margin-top:12px;"><div class="form-label" style="margin-bottom:8px;">CONDITIONS</div>
+        <div class="condition-chips">
+          <div class="condition-chip selected">Allergic Rhinitis</div>
+          <div class="condition-chip" onclick="this.classList.toggle('selected')">Asthma</div>
+          <div class="condition-chip" onclick="this.classList.toggle('selected')">COPD</div>
+          <div class="condition-chip" onclick="this.classList.toggle('selected')">None</div>
+        </div></div>
       </div>
       <div class="settings-section">
         <div class="settings-section-title">🔔 Alert Settings</div>
         <div class="setting-row"><div class="setting-info"><div class="setting-name">AQI Threshold Alerts</div><div class="setting-desc">Alert when AQI exceeds 100</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
         <div class="setting-row"><div class="setting-info"><div class="setting-name">SpO₂ Drop Alerts</div><div class="setting-desc">Alert if SpO₂ drops below 95%</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
         <div class="setting-row"><div class="setting-info"><div class="setting-name">Daily Morning Report</div><div class="setting-desc">Air quality summary at 7 AM</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="setting-row"><div class="setting-info"><div class="setting-name">Outdoor Window Reminders</div><div class="setting-desc">Smart alerts for safe exercise times</div></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+        <div class="setting-row"><div class="setting-info"><div class="setting-name">Doctor Visit Reminders</div><div class="setting-desc">Alert when AI flags health concerns</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
       </div>
       <div style="display:flex;gap:10px;margin-top:20px;">
         <button class="btn btn-primary">💾 Save Changes</button>
@@ -765,105 +942,6 @@
 
 </main>
 
-<script src="js/app.js"></script>
-
-<!-- ===== LUNG CAPACITY TEST MODAL ===== -->
-<div class="lung-test-modal hidden" id="lung-test-modal">
-  <div class="lung-test-container">
-    <button class="lung-test-close" onclick="closeLungTest()">✕</button>
-    <div class="lung-test-header">
-      <div class="lung-test-title">🫁 Lung Capacity Test</div>
-      <div class="lung-test-sub">Spirometry test to measure your lung function</div>
-    </div>
-    <div class="lung-test-demographics">
-      <div class="lung-test-demographic"><div class="lung-test-demographic-label">AGE</div><div class="lung-test-demographic-value">28</div></div>
-      <div class="lung-test-demographic"><div class="lung-test-demographic-label">GENDER</div><div class="lung-test-demographic-value">Male</div></div>
-      <div class="lung-test-demographic"><div class="lung-test-demographic-label">HEIGHT</div><div class="lung-test-demographic-value">175 cm</div></div>
-    </div>
-    <div class="lung-test-instructions">
-      <div class="lung-test-instruction-item"><div class="lung-test-instruction-num">1</div><div>Sit upright and relax. Place the mouthpiece in your mouth.</div></div>
-      <div class="lung-test-instruction-item"><div class="lung-test-instruction-num">2</div><div>Take a deep breath in, filling your lungs completely.</div></div>
-      <div class="lung-test-instruction-item"><div class="lung-test-instruction-num">3</div><div>Breathe out as hard and fast as you can for at least 6 seconds.</div></div>
-    </div>
-    <div class="lung-test-display"><div class="lung-test-volume-bar" id="lung-test-volume-bar"></div></div>
-    <div class="lung-test-info">
-      <div class="lung-test-current-volume" id="lung-test-volume-display">0.00</div>
-      <div class="lung-test-timer" id="lung-test-timer-display">0.0s</div>
-    </div>
-    <div class="lung-test-controls">
-      <button class="lung-test-btn start" id="lung-test-start-btn" onclick="startLungTest()">▶ Start Test</button>
-      <button class="lung-test-btn stop" id="lung-test-stop-btn" onclick="stopLungTest()" disabled>⏹ Stop</button>
-      <button class="lung-test-btn reset" id="lung-test-reset-btn" onclick="resetLungTest()" disabled>↺ Reset</button>
-    </div>
-    <div class="lung-test-results" id="lung-test-results" style="display:none;">
-      <div class="lung-test-results-title">TEST RESULTS</div>
-      <div class="lung-test-results-grid">
-        <div class="lung-test-result-item"><div class="lung-test-result-label">FEV1</div><div class="lung-test-result-value good" id="test-result-fev1">-- L</div></div>
-        <div class="lung-test-result-item"><div class="lung-test-result-label">FVC</div><div class="lung-test-result-value good" id="test-result-fvc">-- L</div></div>
-        <div class="lung-test-result-item"><div class="lung-test-result-label">FEV1/FVC</div><div class="lung-test-result-value good" id="test-result-ratio">--%</div></div>
-        <div class="lung-test-result-item"><div class="lung-test-result-label">PEF</div><div class="lung-test-result-value good" id="test-result-pef">-- L/s</div></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== BREATHING EXERCISES MODAL ===== -->
-<div class="breathing-exercises-modal hidden" id="breathing-exercises-modal">
-  <div class="breathing-exercises-container">
-    <button class="lung-test-close" onclick="closeBreathingExercises()">✕</button>
-    <div class="breathing-header">
-      <div class="breathing-title">🧘 Breathing Exercises</div>
-      <div class="breathing-sub">Guided training to improve your lung capacity</div>
-    </div>
-    
-    <div class="breathing-exercise-tabs">
-      <button class="breathing-exercise-tab active" onclick="selectBreathingExercise('4-7-8', this)">4-7-8 Relax</button>
-      <button class="breathing-exercise-tab" onclick="selectBreathingExercise('box', this)">Box Breathing</button>
-      <button class="breathing-exercise-tab" onclick="selectBreathingExercise('diaphragm', this)">Diaphragm</button>
-    </div>
-    
-    <div class="breathing-visualizer">
-      <div class="breathing-circle" id="breathing-circle">
-        <div class="breathing-instruction" id="breathing-instruction">Ready</div>
-      </div>
-      <div class="breathing-timer" id="breathing-timer">0:00</div>
-      <div class="breathing-cycle" id="breathing-cycle">Cycle 1/5</div>
-    </div>
-    
-    <div class="breathing-description" id="breathing-description">
-      <strong>4-7-8 Breathing:</strong> Inhale for 4 seconds, hold for 7 seconds, exhale for 8 seconds.
-    </div>
-    
-    <div class="breathing-controls">
-      <button class="breathing-btn start" id="breathing-start-btn" onclick="startBreathingExercise()">▶ Start</button>
-      <button class="breathing-btn pause" id="breathing-pause-btn" onclick="pauseBreathingExercise()" disabled>⏸ Pause</button>
-      <button class="breathing-btn stop" id="breathing-stop-btn" onclick="stopBreathingExercise()" disabled>⏹ Stop</button>
-    </div>
-    
-    <div class="breathing-voice-toggle">
-      <span>🔊 Voice Guidance</span>
-      <div class="toggle on" id="breathing-voice-toggle" onclick="toggleBreathingVoice()"></div>
-    </div>
-    
-    <div class="breathing-stats">
-      <div class="breathing-stat"><div class="breathing-stat-value" id="breathing-sessions">12</div><div class="breathing-stat-label">Sessions</div></div>
-      <div class="breathing-stat"><div class="breathing-stat-value" id="breathing-minutes">45</div><div class="breathing-stat-label">Minutes</div></div>
-      <div class="breathing-stat"><div class="breathing-stat-value" id="breathing-streak">4</div><div class="breathing-stat-label">Day Streak</div></div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== AI RECOMMENDATION MODAL ===== -->
-<div class="ai-recommendation-modal hidden" id="ai-recommendation-modal">
-  <div class="ai-recommendation-content">
-    <button class="ai-recommendation-close" onclick="closeAIRecommendation()">✕</button>
-    <div class="ai-recommendation-header">
-      <div class="ai-recommendation-icon">🤖</div>
-      <div class="ai-recommendation-title">AI Health Insights</div>
-    </div>
-    <div class="ai-recommendation-body" id="ai-recommendation-body"></div>
-  </div>
-</div>
-
+<script src="script.js"></script>
 </body>
 </html>
