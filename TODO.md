@@ -1,36 +1,33 @@
-# PulmoSense v2 - Development Tasks
+# PulmoSense v2 - Fixes and Development Tasks
 
-## ✅ Completed Features:
+## Issues to Fix:
+1. [x] Add `.hidden` class to CSS for onboarding modal
+2. [x] Fix chart SVG - remove unnecessary `points` attribute setting
+3. [x] Fix condition chip selection (toggle functionality in settings)
+4. [x] Add proper error handling for navigation
+5. [x] Test all functionality
 
-### Lung Capacity Functions:
-- [x] Lung capacity metrics display (FEV1, FVC, FEV1/FVC ratio, PEF)
-- [x] Spirometry chart visualization with normal vs patient curves
-- [x] Predicted values based on age/gender/height
-- [x] Interactive lung capacity test modal with Start/Stop/Reset
-- [x] Real-time volume bar animation during test
-- [x] Test result calculations with status assessment
-- [x] Breathing exercises modal with 4-7-8, Box, Diaphragm patterns
-- [x] AI recommendations based on lung function data
-- [x] Export lung report functionality
+## Features to Enhance:
+- [x] Auto-close onboarding for demo mode
+- [x] Ensure all animations work correctly
 
-### Backend:
-- [x] Node.js Express API server
-- [x] Lung capacity prediction calculations
-- [x] Lung function status assessment
-- [x] Test results storage
-- [x] Breathing exercise session tracking
+## Lung Capacity Functions (COMPLETED):
+- [x] Add CSS styles for lung capacity components
+- [x] Add JavaScript lung capacity functions:
+  - [x] FEV1 (Forced Expiratory Volume in 1 second) calculation
+  - [x] FVC (Forced Vital Capacity) calculation
+  - [x] FEV1/FVC ratio calculation
+  - [x] Predicted lung capacity based on age/gender/height
+  - [x] Spirometry chart visualization
+  - [x] Lung capacity test simulation
+- [x] Add HTML components to dashboard:
+  - [x] Lung Capacity Metrics card
+  - [x] Spirometry chart section
+  - [x] Lung capacity test interface
 
-### CSS:
-- [x] Spirometry chart styles
-- [x] Lung metrics grid styles
-- [x] Lung test modal styles
-- [x] Breathing exercises modal styles
-- [x] AI recommendation modal styles
-- [x] Achievement/gamification styles
-
-## Files Created/Modified:
-1. server.js - Express API backend
-2. package.json - Node.js dependencies
-3. js/app.js - Frontend JavaScript with all lung functions
-4. css/lung-capacity.css - Additional CSS styles
-5. index.html - Updated with lung capacity section and modals
+## Testing Results:
+- [x] Server running on http://localhost:3000
+- [x] Frontend HTML serving correctly (48045 bytes)
+- [x] API /api/lung-capacity/current working
+- [x] API /api/aqi working
+- [x] API /api/recommendations working
