@@ -80,7 +80,7 @@ AI Logic:
 #  Project Structure
 
 ```
-PulmoSense/
+BreathSafe/
 │
 ├── index.html              → Frontend dashboard
 ├── css/                    → Styling
