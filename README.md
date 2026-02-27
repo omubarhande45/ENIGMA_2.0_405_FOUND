@@ -1,6 +1,6 @@
-# PulmoSense – AI Powered Lung Health & AQI Intelligence System
+# BreathSafe – AI Powered Lung Health & AQI Intelligence System
 
-PulmoSense is an AI-driven respiratory health monitoring platform that combines **real-time air quality data** with **lung capacity analysis** to provide personalized health insights, preventive alerts, and breathing recommendations.
+BreathSafe is an AI-driven respiratory health monitoring platform that combines **real-time air quality data** with **lung capacity analysis** to provide personalized health insights, preventive alerts, and breathing recommendations.
 
 Built for hackathons and smart healthcare innovation, PulmoSense demonstrates how environmental data + health analytics can predict respiratory risk and improve lung wellness.
 
